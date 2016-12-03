@@ -32,6 +32,13 @@
             android:layout_height="wrap_content"
             android:onClick="explore"
              />
+        <Button
+            android:id="@+id/btnLogin"
+            android:text="Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="login"
+            />
     </LinearLayout>
 
 </LinearLayout>
