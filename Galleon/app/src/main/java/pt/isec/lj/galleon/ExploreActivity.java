@@ -44,7 +44,7 @@ public class ExploreActivity extends Activity {
                     resultado = apiCaller.getAllGroups();
                     JSONObject obj = new JSONObject(resultado);
 
-                    if (obj.getString("error") == "false"){ //não existem erros
+                    if (obj.getString("error").equals("false")){ //não existem erros
 
                         //resultado = obj.toString(4);
                         //resultado = obj.getString("error");

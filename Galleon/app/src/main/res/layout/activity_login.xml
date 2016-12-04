@@ -18,16 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-
         <ImageView
             android:layout_width="120dp"
             android:layout_height="100dp"
             android:layout_marginTop="75dp"
-            android:background="@drawable/galleon"
+            android:background="@drawable/galleon_white"
             android:layout_gravity="center"
             />
-
     </LinearLayout>
 
     <!-- FILLER -->
@@ -49,18 +46,17 @@
             android:background="@drawable/ic_action_name"/>
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/txtLoginEmail"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textColor="#fff"
             android:hint="Email"
-            android:letterSpacing="0.025"
-            android:background="#00000000"
             android:textColorHint="#fff"
             android:textSize="16dp"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:backgroundTint="@android:color/white"/>
     </LinearLayout>
 
     <!-- PASSWORD -->
@@ -77,15 +73,17 @@
             android:layout_marginTop="15dp"
             android:background="@android:drawable/ic_lock_idle_lock"/>
         <EditText
+            android:id="@+id/txtLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:textColor="#fff"
-            android:background="#00000000"
+
             android:textColorHint="#fff"
             android:textSize="16dp"
             android:padding="12dp"
-            android:hint="Password"/>
+            android:hint="Password"
+            android:backgroundTint="@android:color/white"/>
     </LinearLayout>
 
     <TextView
@@ -96,7 +94,7 @@
         android:textSize="16dp"
         android:textColor="#fff"
         android:textAlignment="center"
-        android:background="@drawable/border"
+        android:background="@drawable/style"
         android:layout_gravity="center"
         android:padding="10dp"
         android:layout_marginTop="60dp" />
@@ -118,7 +116,6 @@
             android:text="Registar"
             android:textSize="14dp"
             android:textColor="#fff"
-            android:letterSpacing="0.025"
             android:textStyle="bold"
             android:layout_marginLeft="5dp"/>
 

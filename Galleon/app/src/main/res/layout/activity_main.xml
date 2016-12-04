@@ -39,6 +39,21 @@
             android:layout_height="wrap_content"
             android:onClick="login"
             />
+        <Button
+            android:id="@+id/btnRegister"
+            android:text="Register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="register"
+            />
+        <Button
+            android:id="@+id/btnAPI"
+            android:text="TEST_API"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="api_test"
+            />
+
     </LinearLayout>
 
 </LinearLayout>

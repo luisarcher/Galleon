@@ -1,5 +1,8 @@
 package pt.isec.lj.galleon;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,10 +14,30 @@ import java.net.URL;
  */
 
 public class APICaller {
+
     protected String baseURL = "http://139.59.164.139/v1"; // Digital Ocean
 
+    // --- CALLS --- //
     public String getAllGroups(){
         return getData("GET", baseURL + "/allgrp");
+    }
+
+    // --- DATA --- //
+    public String createUser(String paramURL){
+        return getData("POST", baseURL + "/register" + paramURL);
+    }
+
+    // --- UTILS --- //
+    public boolean isErrorInResult(String jsonResult){
+        JSONObject obj = null;
+        try {
+            obj = new JSONObject(jsonResult);
+            return !(obj.getString("error").equals("false"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return true;
+
     }
 
     protected String getData(String requestMethod, String requestUrl)
@@ -35,12 +58,20 @@ public class APICaller {
                 String line;
                 while ( (line = br.readLine()) != null )
                     resp.append(line + "\n");
-            } else {
-                resp.append("Erro a aceder à página");
+            } else if(codigo == 500){
+                resp.append("ERRO 500");
+            }
+            else {
+                //resp.append("Erro a aceder à página");
+                resp.append("ERRO");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return resp.toString();
+    }
+
+    protected String sendPostRequest(){
+        return null;
     }
 }
