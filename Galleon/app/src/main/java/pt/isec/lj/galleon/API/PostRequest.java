@@ -26,7 +26,7 @@ public class PostRequest extends Request {
         sendRequest(requestUrl, queryParams);
     }
 
-    protected String sendRequest(String requestUrl, String queryParams){
+    protected void sendRequest(String requestUrl, String queryParams){
         try {
 
             URL url = new URL(baseUrl + requestUrl);
@@ -67,7 +67,6 @@ public class PostRequest extends Request {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return null;
     }
 }
 
