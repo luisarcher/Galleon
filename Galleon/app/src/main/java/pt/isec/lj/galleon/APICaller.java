@@ -37,7 +37,6 @@ public class APICaller {
             e.printStackTrace();
         }
         return true;
-
     }
 
     protected String getData(String requestMethod, String requestUrl)
@@ -62,16 +61,11 @@ public class APICaller {
                 resp.append("ERRO 500");
             }
             else {
-                //resp.append("Erro a aceder à página");
-                resp.append("ERRO");
+                resp.append("Erro a aceder à página");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return resp.toString();
-    }
-
-    protected String sendPostRequest(){
-        return null;
     }
 }

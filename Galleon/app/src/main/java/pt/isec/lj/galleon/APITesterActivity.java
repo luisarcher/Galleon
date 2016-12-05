@@ -124,7 +124,6 @@ public class APITesterActivity extends Activity {
             this.context = c;
 //            this.error = status;
 //            this.type = t;
-
         }
 
         protected void onPreExecute(){
@@ -137,29 +136,14 @@ public class APITesterActivity extends Activity {
         protected Void doInBackground(String... params) {
             try {
 
-                final TextView outputView = (TextView) findViewById(R.id.showOutput);
                 URL url = new URL("http://139.59.164.139/v1/register");
-
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-
-                String urlParameters = "";
-
-                //connection.setRequestMethod("POST");
-
-                /*connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
-                connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");*/
-                //connection.setDoOutput(true);
 
                 connection.setReadTimeout(10000);
                 connection.setConnectTimeout(15000);
                 connection.setRequestMethod("POST");
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
-
-                /*DataOutputStream dStream = new DataOutputStream(connection.getOutputStream());
-                dStream.writeBytes(urlParameters);
-                dStream.flush();
-                dStream.close();*/
 
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("name", "luisFromApp2")
@@ -176,15 +160,6 @@ public class APITesterActivity extends Activity {
 
                 int responseCode = connection.getResponseCode();
 
-                System.out.println("\nSending 'POST' request to URL : " + url);
-                System.out.println("Post parameters : " + urlParameters);
-                System.out.println("Response Code : " + responseCode);
-
-                final StringBuilder output = new StringBuilder("Request URL " + url);
-                output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
-                output.append(System.getProperty("line.separator")  + "Response Code " + responseCode);
-                output.append(System.getProperty("line.separator")  + "Type " + "POST");
-
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
                 StringBuilder responseOutput = new StringBuilder();
@@ -193,17 +168,6 @@ public class APITesterActivity extends Activity {
                     responseOutput.append(line);
                 }
                 br.close();
-
-                output.append(System.getProperty("line.separator") + "Response " + System.getProperty("line.separator") + System.getProperty("line.separator") + responseOutput.toString());
-
-                APITesterActivity.this.runOnUiThread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        outputView.setText(output);
-                        progress.dismiss();
-                    }
-                });
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -215,9 +179,8 @@ public class APITesterActivity extends Activity {
             return null;
         }
 
-        /*protected void onPostExecute() {
+        protected void onPostExecute(Void result) {
             progress.dismiss();
-        }*/
-
+        }
     }
 }
