@@ -37,8 +37,8 @@ public class RegisterActivity extends Activity {
         txtPassword2 = (EditText) findViewById(R.id.txtRegPassword2);
         txtBDate = (EditText) findViewById(R.id.txtRegBDate);
 
-        /*if (checkAllFields()) {
-            if (comparePasswords()) {*/
+        if (checkAllFields()) {
+            if (comparePasswords()) {
 
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("name", "luisFromAppTestFinal")
@@ -46,10 +46,10 @@ public class RegisterActivity extends Activity {
                         .appendQueryParameter("password", "myPassword");
                 String query = builder.build().getEncodedQuery();
 
-                new APICall(this).execute("/register",query);
+                new RegisterTask(this).execute("/register",query);
 
-            /*} else Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "Empty fields!", Toast.LENGTH_SHORT).show();*/
+            } else Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(this, "Empty fields!", Toast.LENGTH_SHORT).show();
     }
 
     private boolean checkAllFields() {
@@ -75,10 +75,10 @@ public class RegisterActivity extends Activity {
         return false;
     }
 
-    private class APICall extends AsyncTask<String, Void, String> {
+    private class RegisterTask extends AsyncTask<String, Void, String> {
         private final Context context;
 
-        public APICall(Context c){
+        public RegisterTask(Context c){
             this.context = c;
         }
 
@@ -96,9 +96,9 @@ public class RegisterActivity extends Activity {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String message) {
             progress.dismiss();
-            Toast.makeText(this.context, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show();
 
             // Arranca uma nova activity e apaga as posteriores
             Intent i = new Intent(this.context, LoginActivity.class);

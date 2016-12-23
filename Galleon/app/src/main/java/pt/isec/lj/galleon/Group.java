@@ -5,10 +5,10 @@ package pt.isec.lj.galleon;
  */
 
 public class Group {
-    int id;
-    int userId;
-    String groupName;
-    String createdAt;
+    private int id;
+    private int userId;
+    private String groupName;
+    private String createdAt;
 
     public Group(int id, int uid, String n, String ca){
         this.id = id;

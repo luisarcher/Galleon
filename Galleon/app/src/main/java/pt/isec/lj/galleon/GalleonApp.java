@@ -17,7 +17,8 @@ public class GalleonApp extends Application{
         groups = new ArrayList<Group>();
     }
 
-    public void addGroup(Group g){
+    public void addGroup(Group g)
+    {
         groups.add(g);
     }
 }
