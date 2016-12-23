@@ -9,16 +9,21 @@ import java.util.ArrayList;
  */
 
 public class GalleonApp extends Application{
-    protected ArrayList<Group> groups;
+    private ArrayList<Group> groups;
+    private ArrayList<String> events;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        groups = new ArrayList<Group>();
+        groups = new ArrayList<>();
+        events = new ArrayList<>();
     }
 
-    public void addGroup(Group g)
-    {
+    public void addGroup(Group g){
         groups.add(g);
+    }
+
+    public ArrayList<String> getEvents(){
+        return events;
     }
 }
