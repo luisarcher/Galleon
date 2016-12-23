@@ -8,9 +8,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import pt.isec.lj.galleon.API.GetRequest;
 import pt.isec.lj.galleon.API.Request;
+
+import static android.R.id.message;
 
 public class ExploreActivity extends Activity {
 
@@ -24,14 +27,19 @@ public class ExploreActivity extends Activity {
 
         tvGrp = (TextView) findViewById(R.id.txtGrpList);
 
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        /*ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             new ExploreTask(this).execute("/allgrp");
         } else {
             //Vai buscar os grupos da BD local?
             tvGrp.setText("No network connection available.");
-        }
+        }*/
+
+        if (((GalleonApp)getApplication()).hasInternetConnection())
+            new ExploreTask(this).execute("/allgrp");
+        else
+            Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
     }
 
     private class ExploreTask extends AsyncTask<String, Void, String>{

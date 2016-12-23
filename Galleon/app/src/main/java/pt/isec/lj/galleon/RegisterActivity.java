@@ -27,29 +27,38 @@ public class RegisterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-    }
-
-    public void onRegister(View v) {
 
         txtName = (EditText) findViewById(R.id.txtRegName);
         txtEmail = (EditText) findViewById(R.id.txtRegEmail);
         txtPassword = (EditText) findViewById(R.id.txtRegPassword);
         txtPassword2 = (EditText) findViewById(R.id.txtRegPassword2);
         txtBDate = (EditText) findViewById(R.id.txtRegBDate);
+    }
 
-        if (checkAllFields()) {
-            if (comparePasswords()) {
+    public void onRegister(View v) {
 
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("name", "luisFromAppTestFinal")
-                        .appendQueryParameter("email", "luismcjordao@hotmail.com")
-                        .appendQueryParameter("password", "myPassword");
-                String query = builder.build().getEncodedQuery();
+        if (!((GalleonApp) getApplication()).hasInternetConnection()) {
+            Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                new RegisterTask(this).execute("/register",query);
+        if (!checkAllFields()) {
+            Toast.makeText(this, "Empty fields!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            } else Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(this, "Empty fields!", Toast.LENGTH_SHORT).show();
+        if (!comparePasswords()) {
+            Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri.Builder builder = new Uri.Builder()
+                .appendQueryParameter("name", txtName.getText().toString())
+                .appendQueryParameter("email", txtEmail.getText().toString())
+                .appendQueryParameter("password", txtPassword.getText().toString());
+        String query = builder.build().getEncodedQuery();
+
+        new RegisterTask(this).execute("/register", query);
     }
 
     private boolean checkAllFields() {

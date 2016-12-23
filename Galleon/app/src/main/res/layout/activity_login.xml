@@ -97,7 +97,8 @@
         android:background="@drawable/style"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="60dp"
+        android:onClick="onLogin"/>
 
 
     <LinearLayout
@@ -117,7 +118,8 @@
             android:textSize="14dp"
             android:textColor="#fff"
             android:textStyle="bold"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:onClick="register"/>
 
     </LinearLayout>
 </LinearLayout>

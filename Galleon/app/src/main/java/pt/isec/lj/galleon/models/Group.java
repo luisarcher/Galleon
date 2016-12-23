@@ -1,4 +1,4 @@
-package pt.isec.lj.galleon;
+package pt.isec.lj.galleon.models;
 
 /**
  * Created by luism on 02/12/2016.
