@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
         email = ((TextView) findViewById(R.id.txtLoginEmail)).getText().toString();
         password = ((TextView) findViewById(R.id.txtLoginPassword)).getText().toString();
 
-        if (!((GalleonApp) getApplication()).hasInternetConnection()) {
+        if (!((GalleonApp) getApplication()).isNetworkAvailable(this)) {
             Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
             return;
         }

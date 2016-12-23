@@ -37,7 +37,7 @@ public class RegisterActivity extends Activity {
 
     public void onRegister(View v) {
 
-        if (!((GalleonApp) getApplication()).hasInternetConnection()) {
+        if (!((GalleonApp) getApplication()).isNetworkAvailable(this)) {
             Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -27,16 +27,7 @@ public class ExploreActivity extends Activity {
 
         tvGrp = (TextView) findViewById(R.id.txtGrpList);
 
-        /*ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            new ExploreTask(this).execute("/allgrp");
-        } else {
-            //Vai buscar os grupos da BD local?
-            tvGrp.setText("No network connection available.");
-        }*/
-
-        if (((GalleonApp)getApplication()).hasInternetConnection())
+        if (((GalleonApp)getApplication()).isNetworkAvailable(this))
             new ExploreTask(this).execute("/allgrp");
         else
             Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
