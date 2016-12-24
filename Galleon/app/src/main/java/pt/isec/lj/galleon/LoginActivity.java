@@ -19,22 +19,26 @@ import pt.isec.lj.galleon.models.User;
 
 public class LoginActivity extends Activity {
 
+    private GalleonApp app;
     private ProgressDialog progress;
     private String email;
     private String password;
+    private boolean userInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if(((GalleonApp) getApplication()).isSetSharedPreferencesSessId()){
-            Intent i = new Intent(this, HomeActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-        }
-
-
         setContentView(R.layout.activity_login);
+
+        app = (GalleonApp) getApplication();
+
+        if(app.isSetSharedPreferencesSessId()){
+            userInput = false;
+            email = app.getSharedPreferencesSess().getString("email", "");
+            password = app.getSharedPreferencesSess().getString("passwd", "");
+            doLogin();
+        }
+        userInput = true;
     }
 
     public void register(View v){
@@ -44,8 +48,14 @@ public class LoginActivity extends Activity {
     }
 
     public void onLogin(View v){
-        email = ((TextView) findViewById(R.id.txtLoginEmail)).getText().toString();
-        password = ((TextView) findViewById(R.id.txtLoginPassword)).getText().toString();
+        doLogin();
+    }
+
+    private void doLogin(){
+        if (userInput) {
+            email = ((TextView) findViewById(R.id.txtLoginEmail)).getText().toString();
+            password = ((TextView) findViewById(R.id.txtLoginPassword)).getText().toString();
+        }
 
         if (!((GalleonApp) getApplication()).isNetworkAvailable(this)) {
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
@@ -90,7 +100,7 @@ public class LoginActivity extends Activity {
                 return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + postReq.getResponseCode() + " " + msg);
             }else {
                 saveUserData(postReq.getJsonResult());
-                return "Login Success!";
+                return getResources().getString(R.string.login_success);
             }
         }
 
@@ -107,12 +117,15 @@ public class LoginActivity extends Activity {
 
         private void saveUserData(JSONObject obj){
             try {
+                GalleonApp app = (GalleonApp) getApplication();
                 User user = new User(
                         obj.getInt("id"),
                         obj.getString("name"),
                         obj.getString("email"),
                         obj.getString("apiKey"));
-                ((GalleonApp) getApplication()).setUser(user);
+                app.setUser(user);
+                app.setSharedPreferencesSess(user.getUserId(), email, password);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Galleon</string>
+    <string name="conn_error">Erro na ligação!</string>
+    <string name="empty_fields">Campos vazios encontrados!</string>
+    <string name="lets_start">Vamos começar!</string>
+    <string name="loading">A carregar...</string>
+    <string name="logging_in">A autenticar...</string>
+    <string name="login_success">Login com sucesso!</string>
+    <string name="no_internet">Não existe ligação á internet!</string>
+    <string name="not_matching_passwords">Passwords não são iguais!</string>
+</resources>
