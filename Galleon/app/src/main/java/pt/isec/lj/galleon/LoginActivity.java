@@ -117,7 +117,6 @@ public class LoginActivity extends Activity {
 
         private void saveUserData(JSONObject obj){
             try {
-                GalleonApp app = (GalleonApp) getApplication();
                 User user = new User(
                         obj.getInt("id"),
                         obj.getString("name"),
