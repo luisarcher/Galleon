@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 
 import java.util.ArrayList;
 
+import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Group;
 import pt.isec.lj.galleon.models.User;
 
@@ -15,22 +16,30 @@ import pt.isec.lj.galleon.models.User;
  */
 
 public class GalleonApp extends Application{
+    private String returningUserId;
     private User currentUser;
     private ArrayList<Group> groups;
-    private ArrayList<String> events;
+    private ArrayList<Event> events;
 
     @Override
     public void onCreate() {
         super.onCreate();
         groups = new ArrayList<>();
         events = new ArrayList<>();
+
+        events.add(new Event("evento1"));
+        events.add(new Event("evento2"));
+        events.add(new Event("evento3"));
+        events.add(new Event("evento4"));
+        events.add(new Event("evento5"));
+        events.add(new Event("evento6"));
     }
 
     public void addGroup(Group g){
         groups.add(g);
     }
 
-    public ArrayList<String> getEvents(){
+    public ArrayList<Event> getEvents(){
         return events;
     }
 
@@ -50,5 +59,11 @@ public class GalleonApp extends Application{
 
     public User getCurrentUser(){
         return currentUser;
+    }
+
+    public boolean isSetSharedPreferencesSessId(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("sess", MODE_PRIVATE);
+        currentUser = new User(pref.getInt("userId",0),"","","");
+        return pref.contains("userId");
     }
 }

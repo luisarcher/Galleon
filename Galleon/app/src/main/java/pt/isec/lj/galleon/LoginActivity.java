@@ -26,6 +26,14 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(((GalleonApp) getApplication()).isSetSharedPreferencesSessId()){
+            Intent i = new Intent(this, HomeActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+        }
+
+
         setContentView(R.layout.activity_login);
     }
 
