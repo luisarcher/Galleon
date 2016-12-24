@@ -48,12 +48,12 @@ public class LoginActivity extends Activity {
         password = ((TextView) findViewById(R.id.txtLoginPassword)).getText().toString();
 
         if (!((GalleonApp) getApplication()).isNetworkAvailable(this)) {
-            Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (email.equals("") || password.equals("")){
-            Toast.makeText(this, "Empty fields!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -70,14 +70,14 @@ public class LoginActivity extends Activity {
         private final Context context;
         PostRequest postReq;
 
-        public LoginTask (Context c){
+        LoginTask (Context c){
             this.context = c;
         }
 
         @Override
         protected void onPreExecute(){
             progress= new ProgressDialog(this.context);
-            progress.setMessage("Logging in...");
+            progress.setMessage(getResources().getString(R.string.logging_in));
             progress.show();
         }
 
@@ -87,7 +87,7 @@ public class LoginActivity extends Activity {
 
             if (postReq.isError()){
                 String msg = postReq.getMessage();
-                return (msg.isEmpty()) ? "Connection error!" : ("" + postReq.getResponseCode() + " " + msg);
+                return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + postReq.getResponseCode() + " " + msg);
             }else {
                 saveUserData(postReq.getJsonResult());
                 return "Login Success!";

@@ -16,7 +16,6 @@ import pt.isec.lj.galleon.models.User;
  */
 
 public class GalleonApp extends Application{
-    private String returningUserId;
     private User currentUser;
     private ArrayList<Group> groups;
     private ArrayList<Event> events;

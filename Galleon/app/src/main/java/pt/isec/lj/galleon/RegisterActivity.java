@@ -38,17 +38,17 @@ public class RegisterActivity extends Activity {
     public void onRegister(View v) {
 
         if (!((GalleonApp) getApplication()).isNetworkAvailable(this)) {
-            Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!checkAllFields()) {
-            Toast.makeText(this, "Empty fields!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!comparePasswords()) {
-            Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.not_matching_passwords), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -62,32 +62,27 @@ public class RegisterActivity extends Activity {
     }
 
     private boolean checkAllFields() {
-        if (isEmpty(txtEmail)
+        return !(isEmpty(txtEmail)
                 || isEmpty(txtEmail)
                 || isEmpty(txtPassword)
                 || isEmpty(txtPassword2)
-                || isEmpty(txtBDate))
-            return false;
-        return true;
+                || isEmpty(txtBDate));
     }
 
     private boolean isEmpty(EditText etText) {
-        if (etText.getText().toString().trim().length() > 0)
-            return false;
-        return true;
+        return etText.getText().toString().trim().length() <= 0;
     }
 
     private boolean comparePasswords() {
-        if (txtPassword.getText().toString().equals(
+        return txtPassword.getText().toString().equals(
                 txtPassword2.getText().toString()
-        )) return true;
-        return false;
+        );
     }
 
     private class RegisterTask extends AsyncTask<String, Void, String> {
         private final Context context;
 
-        public RegisterTask(Context c){
+        RegisterTask(Context c){
             this.context = c;
         }
 

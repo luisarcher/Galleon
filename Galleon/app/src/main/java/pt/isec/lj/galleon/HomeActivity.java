@@ -9,10 +9,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import pt.isec.lj.galleon.models.User;
 

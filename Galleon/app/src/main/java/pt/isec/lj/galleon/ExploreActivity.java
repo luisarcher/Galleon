@@ -3,8 +3,6 @@ package pt.isec.lj.galleon;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -12,8 +10,6 @@ import android.widget.Toast;
 
 import pt.isec.lj.galleon.API.GetRequest;
 import pt.isec.lj.galleon.API.Request;
-
-import static android.R.id.message;
 
 public class ExploreActivity extends Activity {
 
@@ -30,7 +26,7 @@ public class ExploreActivity extends Activity {
         if (((GalleonApp)getApplication()).isNetworkAvailable(this))
             new ExploreTask(this).execute("/allgrp");
         else
-            Toast.makeText(this, "There is no internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
     }
 
     private class ExploreTask extends AsyncTask<String, Void, String>{
@@ -42,7 +38,7 @@ public class ExploreActivity extends Activity {
         @Override
         protected void onPreExecute(){
             progress = new ProgressDialog(this.context);
-            progress.setMessage("Loading");
+            progress.setMessage(getResources().getString(R.string.loading));
             progress.show();
         }
 
