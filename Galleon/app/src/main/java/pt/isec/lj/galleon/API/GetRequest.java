@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by luism on 05/12/2016.
+ * Created by luism on 05/12/2016
  */
 
 public class GetRequest extends Request {
@@ -17,7 +17,7 @@ public class GetRequest extends Request {
         sendRequest(requestUrl);
     }
 
-    protected void sendRequest(String requestUrl){
+    private void sendRequest(String requestUrl){
         StringBuilder resp = new StringBuilder();
         try {
             URL url = new URL(baseUrl + requestUrl);
@@ -28,15 +28,17 @@ public class GetRequest extends Request {
             conn.setDoInput(true);
             conn.connect();
 
-            responseCode = conn.getResponseCode();
             InputStream is=conn.getInputStream();
             BufferedReader br=new BufferedReader(new InputStreamReader(is));
             String line;
             while ( (line = br.readLine()) != null )
-                resp.append(line + "\n");
+                resp.append(line /*+ "\n"*/);
 
             jsonResult = new JSONObject(resp.toString());
+            responseCode = conn.getResponseCode();
+            error = jsonResult.getBoolean("error");
             message = jsonResult.getString("message");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

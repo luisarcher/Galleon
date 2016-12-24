@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PostRequest extends Request {
-    protected String requestMethod;
+    private String requestMethod;
 
     public PostRequest(String requestUrl, String queryParams){
         requestMethod = "POST";
@@ -26,7 +26,7 @@ public class PostRequest extends Request {
         sendRequest(requestUrl, queryParams);
     }
 
-    protected void sendRequest(String requestUrl, String queryParams){
+    private void sendRequest(String requestUrl, String queryParams){
         try {
 
             URL url = new URL(baseUrl + requestUrl);
@@ -45,10 +45,8 @@ public class PostRequest extends Request {
             writer.flush();
             writer.close();
 
-            responseCode = connection.getResponseCode();
-
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String line = "";
+            String line;
             StringBuilder responseOutput = new StringBuilder();
             while((line = br.readLine()) != null ) {
                 responseOutput.append(line);
@@ -56,7 +54,9 @@ public class PostRequest extends Request {
             br.close();
 
             jsonResult = new JSONObject(responseOutput.toString());
+            responseCode = connection.getResponseCode();
             message = jsonResult.getString("message");
+            error = jsonResult.getBoolean("error");
 
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block

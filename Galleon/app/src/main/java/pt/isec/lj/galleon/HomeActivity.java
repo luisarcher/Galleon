@@ -6,11 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import pt.isec.lj.galleon.models.User;
 
 public class HomeActivity extends Activity {
 
     GalleonApp app;
     ListView eventList;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +24,17 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         app = (GalleonApp) getApplication();
-        eventList = (ListView) findViewById(R.id.lstEvents);
+        //eventList = (ListView) findViewById(R.id.lstEvents);
+        currentUser = app.getCurrentUser();
+
+        ((TextView)findViewById(R.id.lblName)).setText(currentUser.getUserName());
+        ((TextView)findViewById(R.id.lblEmail)).setText(currentUser.getUserEmail());
     }
 
     @Override
     protected void onResume(){
         super.onResume();
 
-        //eventList.getAdapter();
     }
 
     class EventListAdapter extends BaseAdapter {

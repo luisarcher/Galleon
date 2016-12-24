@@ -11,7 +11,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import pt.isec.lj.galleon.API.PostRequest;
+import pt.isec.lj.galleon.models.User;
 
 public class LoginActivity extends Activity {
 
@@ -31,7 +35,7 @@ public class LoginActivity extends Activity {
         startActivity(i);
     }
 
-    public void onLogin(){
+    public void onLogin(View v){
         email = ((TextView) findViewById(R.id.txtLoginEmail)).getText().toString();
         password = ((TextView) findViewById(R.id.txtLoginPassword)).getText().toString();
 
@@ -56,6 +60,8 @@ public class LoginActivity extends Activity {
     private class LoginTask extends AsyncTask<String, Void, String> {
 
         private final Context context;
+        PostRequest postReq;
+
         public LoginTask (Context c){
             this.context = c;
         }
@@ -69,8 +75,15 @@ public class LoginActivity extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
-            PostRequest postReq = new PostRequest(strings[0],strings[1]);
-            return postReq.getMessage();
+            postReq = new PostRequest(strings[0],strings[1]);
+
+            if (postReq.isError()){
+                String msg = postReq.getMessage();
+                return (msg.isEmpty()) ? "Connection error!" : ("" + postReq.getResponseCode() + " " + msg);
+            }else {
+                saveUserData(postReq.getJsonResult());
+                return "Login Success!";
+            }
         }
 
         @Override
@@ -79,9 +92,22 @@ public class LoginActivity extends Activity {
             Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show();
 
             // Arranca uma nova activity e apaga as posteriores
-            Intent i = new Intent(this.context, LoginActivity.class);
+            Intent i = new Intent(this.context, HomeActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
+        }
+
+        private void saveUserData(JSONObject obj){
+            try {
+                User user = new User(
+                        obj.getInt("id"),
+                        obj.getString("name"),
+                        obj.getString("email"),
+                        obj.getString("apiKey"));
+                ((GalleonApp) getApplication()).setUser(user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

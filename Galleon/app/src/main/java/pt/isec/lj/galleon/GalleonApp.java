@@ -2,18 +2,20 @@ package pt.isec.lj.galleon;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import java.util.ArrayList;
 
 import pt.isec.lj.galleon.models.Group;
+import pt.isec.lj.galleon.models.User;
 
 /**
- * Created by luism on 02/12/2016.
+ * Created by luism on 02/12/2016
  */
 
 public class GalleonApp extends Application{
+    private User currentUser;
     private ArrayList<Group> groups;
     private ArrayList<String> events;
 
@@ -32,12 +34,21 @@ public class GalleonApp extends Application{
         return events;
     }
 
-    public void saveLoginData(String login){
-        return;
-    }
-
     public boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
+
+    public void setUser(User user){
+        currentUser = user;
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("sess", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("userId", user.getUserId());
+        editor.apply();
+    }
+
+    public User getCurrentUser(){
+        return currentUser;
     }
 }

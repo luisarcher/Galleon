@@ -3,10 +3,11 @@ package pt.isec.lj.galleon.API;
 import org.json.JSONObject;
 
 public abstract class Request {
-    protected int responseCode;
-    protected String message;
-    protected JSONObject jsonResult;
-    protected static final String baseUrl = "http://139.59.164.139/v1";
+    int responseCode;
+    boolean error;
+    String message;
+    JSONObject jsonResult;
+    static final String baseUrl = "http://139.59.164.139/v1";
 
     public int getResponseCode(){
         return responseCode;
@@ -18,5 +19,9 @@ public abstract class Request {
 
     public JSONObject getJsonResult(){
         return jsonResult;
+    }
+
+    public boolean isError(){
+        return error;
     }
 }
