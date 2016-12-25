@@ -28,16 +28,16 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         app = (GalleonApp) getApplication();
-
         if(app.isSetSharedPreferencesSessId()){
             userInput = false;
             email = app.getSharedPreferencesSess().getString("email", "");
             password = app.getSharedPreferencesSess().getString("passwd", "");
             doLogin();
         }
+
+        setContentView(R.layout.activity_login);
         userInput = true;
     }
 
@@ -79,9 +79,11 @@ public class LoginActivity extends Activity {
 
         private final Context context;
         PostRequest postReq;
+        private boolean loginSuccess;
 
         LoginTask (Context c){
             this.context = c;
+            this.loginSuccess = false;
         }
 
         @Override
@@ -100,6 +102,7 @@ public class LoginActivity extends Activity {
                 return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + postReq.getResponseCode() + " " + msg);
             }else {
                 saveUserData(postReq.getJsonResult());
+                loginSuccess = true;
                 return getResources().getString(R.string.login_success);
             }
         }
@@ -109,10 +112,13 @@ public class LoginActivity extends Activity {
             progress.dismiss();
             Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show();
 
-            // Arranca uma nova activity e apaga as posteriores
-            Intent i = new Intent(this.context, HomeActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
+            if (loginSuccess) {
+
+                // Arranca uma nova activity e apaga as posteriores
+                Intent i = new Intent(this.context, HomeActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            }
         }
 
         private void saveUserData(JSONObject obj){

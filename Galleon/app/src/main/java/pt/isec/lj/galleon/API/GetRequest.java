@@ -15,6 +15,9 @@ import java.net.URL;
 public class GetRequest extends Request {
     public GetRequest(String requestUrl, String api_key){
         this.api_key = api_key;
+        this.error = true;
+        this.message = "";
+
         sendRequest(requestUrl);
     }
 

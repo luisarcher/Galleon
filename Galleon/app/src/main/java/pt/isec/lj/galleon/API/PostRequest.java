@@ -19,14 +19,13 @@ public class PostRequest extends Request {
     private String requestMethod;
 
     public PostRequest(String requestUrl, String queryParams, String api_key){
-        this.api_key = api_key;
-        requestMethod = "POST";
-        sendRequest(requestUrl, queryParams);
+        this("POST", requestUrl, queryParams, api_key);
     }
 
     public PostRequest(String requestMethod, String requestUrl, String queryParams, String api_key){
         this.api_key = api_key;
         this.requestMethod = requestMethod;
+
         sendRequest(requestUrl, queryParams);
     }
 
@@ -63,9 +62,11 @@ public class PostRequest extends Request {
 
             jsonResult = new JSONObject(responseOutput.toString());
             responseCode = connection.getResponseCode();
+
+            message = "";
             message = jsonResult.getString("message");
 
-            this.error = true;
+            error = true;
             error = jsonResult.getBoolean("error");
 
         } catch (MalformedURLException e) {

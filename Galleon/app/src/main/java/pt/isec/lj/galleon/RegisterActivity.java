@@ -79,6 +79,14 @@ public class RegisterActivity extends Activity {
         );
     }
 
+    private String getEmail(){
+        return txtEmail.getText().toString();
+    }
+
+    private String getPassword(){
+        return txtPassword.getText().toString();
+    }
+
     private class RegisterTask extends AsyncTask<String, Void, String> {
         private final Context context;
 
@@ -96,7 +104,14 @@ public class RegisterActivity extends Activity {
         @Override
         protected String doInBackground(String... strings) {
             PostRequest postReq = new PostRequest(strings[0],strings[1], "");
-            return postReq.getMessage();
+
+            if (postReq.isError()){
+                String msg = postReq.getMessage();
+                return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + postReq.getResponseCode() + " " + msg);
+            }else {
+                ((GalleonApp)getApplication()).setSharedPreferencesSess(-1, getEmail(), getPassword());
+                return getResources().getString(R.string.register_success);
+            }
         }
 
         @Override
