@@ -68,13 +68,14 @@ public class CreateGroupPageActivity extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
+            String msg = "";
             postReq = new PostRequest(strings[0],strings[1], app.getCurrentUser().getApiKey());
+            msg = postReq.getMessage();
 
             if (postReq.isError()){
-                String msg = postReq.getMessage();
-                return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + postReq.getResponseCode() + " " + msg);
+                return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + msg + " (" + postReq.getResponseCode() + ")");
             }else {
-                return getResources().getString(R.string.group_created_ok);
+                return (msg.isEmpty()) ? getResources().getString(R.string.group_created_ok) : (msg);
             }
         }
 

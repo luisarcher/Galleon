@@ -42,7 +42,7 @@ public class PostRequest extends Request {
             connection.setDoInput(true);
             connection.setDoOutput(true);
 
-            if (api_key != null && api_key.equals("")){
+            if (api_key != null && !api_key.equals("")){
                 connection.setRequestProperty("Authorization", api_key);
             }
 
@@ -64,6 +64,8 @@ public class PostRequest extends Request {
             jsonResult = new JSONObject(responseOutput.toString());
             responseCode = connection.getResponseCode();
             message = jsonResult.getString("message");
+
+            this.error = true;
             error = jsonResult.getBoolean("error");
 
         } catch (MalformedURLException e) {

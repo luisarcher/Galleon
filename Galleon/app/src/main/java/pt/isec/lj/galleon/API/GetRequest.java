@@ -37,6 +37,8 @@ public class GetRequest extends Request {
 
             jsonResult = new JSONObject(resp.toString());
             responseCode = conn.getResponseCode();
+
+            this.error = true;
             error = jsonResult.getBoolean("error");
             message = jsonResult.getString("message");
 
