@@ -79,7 +79,9 @@ public class GalleonApp extends Application{
     public void unsetSharedPreferencesSess(){
         SharedPreferences pref = getApplicationContext().getSharedPreferences("sess", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.clear();
-        editor.commit();
+        editor.remove("userId");
+        editor.remove("email");
+        editor.remove("passwd");
+        editor.apply();
     }
 }

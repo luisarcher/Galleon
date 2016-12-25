@@ -1,8 +1,11 @@
 package pt.isec.lj.galleon;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
@@ -38,6 +41,26 @@ public class HomeActivity extends Activity {
     protected void onResume(){
         super.onResume();
         eventList.setAdapter(new EventListAdapter());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuCreateGroup:
+                startActivity(new Intent(this, CreateGroupPageActivity.class));
+                return true;
+            case R.id.menuFindGroups:
+                startActivity(new Intent(this, ExploreActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     class EventListAdapter extends BaseAdapter {

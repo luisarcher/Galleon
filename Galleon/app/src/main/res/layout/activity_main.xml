@@ -15,7 +15,7 @@
         android:id="@+id/lbltitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Galleon"
+        android:text="@string/app_name"
         android:gravity="center_horizontal"
         android:textSize="20sp"/>
 
@@ -46,12 +46,13 @@
             android:layout_height="wrap_content"
             android:onClick="register"
             />
+
         <Button
-            android:id="@+id/btnAPI"
-            android:text="TEST_API"
+            android:id="@+id/btnLogout"
+            android:text="LOGOUT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="api_test"
+            android:onClick="onLogout"
             />
 
     </LinearLayout>

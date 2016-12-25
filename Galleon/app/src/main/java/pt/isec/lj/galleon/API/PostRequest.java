@@ -13,15 +13,19 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import pt.isec.lj.galleon.GalleonApp;
+
 public class PostRequest extends Request {
     private String requestMethod;
 
-    public PostRequest(String requestUrl, String queryParams){
+    public PostRequest(String requestUrl, String queryParams, String api_key){
+        this.api_key = api_key;
         requestMethod = "POST";
         sendRequest(requestUrl, queryParams);
     }
 
-    public PostRequest(String requestMethod, String requestUrl, String queryParams){
+    public PostRequest(String requestMethod, String requestUrl, String queryParams, String api_key){
+        this.api_key = api_key;
         this.requestMethod = requestMethod;
         sendRequest(requestUrl, queryParams);
     }
@@ -37,6 +41,10 @@ public class PostRequest extends Request {
             connection.setRequestMethod(requestMethod);
             connection.setDoInput(true);
             connection.setDoOutput(true);
+
+            if (api_key != null && api_key.equals("")){
+                connection.setRequestProperty("Authorization", api_key);
+            }
 
             OutputStream os = connection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(

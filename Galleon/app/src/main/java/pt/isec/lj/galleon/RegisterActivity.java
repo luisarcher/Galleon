@@ -95,7 +95,7 @@ public class RegisterActivity extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
-            PostRequest postReq = new PostRequest(strings[0],strings[1]);
+            PostRequest postReq = new PostRequest(strings[0],strings[1], "");
             return postReq.getMessage();
         }
 

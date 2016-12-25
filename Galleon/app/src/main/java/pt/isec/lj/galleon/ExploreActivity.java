@@ -31,7 +31,7 @@ public class ExploreActivity extends Activity {
 
     private class ExploreTask extends AsyncTask<String, Void, String>{
         private final Context context;
-        public ExploreTask(Context c){
+        ExploreTask(Context c){
             this.context = c;
         }
 
@@ -44,7 +44,7 @@ public class ExploreActivity extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
-            Request getReq =  new GetRequest(strings[0]);
+            Request getReq =  new GetRequest(strings[0], "");
 
             /* COMPOR OS GRUPOS ATRAVÉS DO OBJECTO JSON */
             return getReq.getJsonResult().toString();

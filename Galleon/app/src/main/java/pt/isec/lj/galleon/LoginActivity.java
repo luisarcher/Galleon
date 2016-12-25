@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
             password = ((TextView) findViewById(R.id.txtLoginPassword)).getText().toString();
         }
 
-        if (!((GalleonApp) getApplication()).isNetworkAvailable(this)) {
+        if (!app.isNetworkAvailable(this)) {
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -93,7 +93,7 @@ public class LoginActivity extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
-            postReq = new PostRequest(strings[0],strings[1]);
+            postReq = new PostRequest(strings[0],strings[1], "");
 
             if (postReq.isError()){
                 String msg = postReq.getMessage();

@@ -28,4 +28,8 @@ public class User {
     public String getUserEmail(){
         return email;
     }
+
+    public String getApiKey(){
+        return api_key;
+    }
 }
