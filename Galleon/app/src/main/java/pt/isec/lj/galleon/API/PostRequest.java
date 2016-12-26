@@ -60,7 +60,8 @@ public class PostRequest extends Request {
             }
             br.close();
 
-            jsonResult = new JSONObject(responseOutput.toString());
+            rawResponse = responseOutput.toString();
+            jsonResult = new JSONObject(rawResponse);
             responseCode = connection.getResponseCode();
 
             message = "";

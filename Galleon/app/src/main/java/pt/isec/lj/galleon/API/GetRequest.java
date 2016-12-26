@@ -15,8 +15,6 @@ import java.net.URL;
 public class GetRequest extends Request {
     public GetRequest(String requestUrl, String api_key){
         this.api_key = api_key;
-        this.error = true;
-        this.message = "";
 
         sendRequest(requestUrl);
     }
@@ -30,6 +28,11 @@ public class GetRequest extends Request {
             conn.setConnectTimeout(15000 /* milisegundos */);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
+
+            if (api_key != null && !api_key.equals("")){
+                conn.setRequestProperty("Authorization", api_key);
+            }
+
             conn.connect();
 
             InputStream is=conn.getInputStream();
@@ -38,11 +41,15 @@ public class GetRequest extends Request {
             while ( (line = br.readLine()) != null )
                 resp.append(line /*+ "\n"*/);
 
-            jsonResult = new JSONObject(resp.toString());
             responseCode = conn.getResponseCode();
 
-            this.error = true;
+            rawResponse = resp.toString();
+            jsonResult = new JSONObject(rawResponse);
+
+            error = true;
             error = jsonResult.getBoolean("error");
+
+            message = "";
             message = jsonResult.getString("message");
 
         } catch (Exception e) {

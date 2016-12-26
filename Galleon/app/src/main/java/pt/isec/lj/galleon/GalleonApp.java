@@ -4,10 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-
-import java.util.ArrayList;
-
-import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Group;
 import pt.isec.lj.galleon.models.User;
 
@@ -17,14 +13,14 @@ import pt.isec.lj.galleon.models.User;
 
 public class GalleonApp extends Application{
     private User currentUser;
-    private ArrayList<Group> groups;
-    private ArrayList<Event> events;
+    private Group currentGroup;
+    //private ArrayList<Group> groups;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        groups = new ArrayList<>();
-        events = new ArrayList<>();
+
 
         /*events.add(new Event("evento1"));
         events.add(new Event("evento2"));
@@ -34,13 +30,9 @@ public class GalleonApp extends Application{
         events.add(new Event("evento6"));*/
     }
 
-    public void addGroup(Group g){
+    /*public void addGroup(Group g){
         groups.add(g);
-    }
-
-    public ArrayList<Event> getEvents(){
-        return events;
-    }
+    }*/
 
     public boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
@@ -83,5 +75,13 @@ public class GalleonApp extends Application{
         editor.remove("email");
         editor.remove("passwd");
         editor.apply();
+    }
+
+    public void setGroup(Group g){
+        currentGroup = g;
+    }
+
+    public Group getGroup(){
+        return currentGroup;
     }
 }

@@ -9,4 +9,13 @@
     <string name="login_success">Login com sucesso!</string>
     <string name="no_internet">Não existe ligação á internet!</string>
     <string name="not_matching_passwords">Passwords não são iguais!</string>
+    <string name="group_cat">Descrição ou categoria</string>
+    <string name="group_create">Criar novo grupo</string>
+    <string name="group_created_ok">Novo grupo criado!</string>
+    <string name="group_name">Nome do grupo</string>
+    <string name="group_ok">Tornar-se um capitão</string>
+    <string name="group_progress_msg">A configurar a página...</string>
+    <string name="group_search">Procurar grupos</string>
+    <string name="grouppage_setup">Configurar a pagina do grupo</string>
+    <string name="register_success">Registado com sucesso!</string>
 </resources>

@@ -24,7 +24,7 @@ public class ExploreActivity extends Activity {
         tvGrp = (TextView) findViewById(R.id.txtGrpList);
 
         if (((GalleonApp)getApplication()).isNetworkAvailable(this))
-            new ExploreTask(this).execute("/allgrp");
+            new ExploreTask(this).execute("/usergroup", "68ad8d6469245160e510443308551b16");
         else
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
     }

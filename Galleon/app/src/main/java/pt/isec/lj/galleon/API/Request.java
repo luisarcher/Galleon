@@ -7,10 +7,12 @@ public abstract class Request {
     static final String baseUrl = "http://139.59.164.139/v1";
     String api_key;
 
+    String rawResponse;
+
     int responseCode;
+    JSONObject jsonResult;
     boolean error;
     String message;
-    JSONObject jsonResult;
 
     public int getResponseCode(){
         return responseCode;
@@ -26,5 +28,13 @@ public abstract class Request {
 
     public boolean isError(){
         return error;
+    }
+
+    public int getLength(){
+        return jsonResult.length();
+    }
+
+    public String getRaw(){
+        return rawResponse;
     }
 }
