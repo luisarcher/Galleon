@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,6 +49,33 @@ public class GroupPageActivity extends Activity {
             new GroupPageEventsTask(this).execute("/events/" + currentGroup.getId(), app.getCurrentUser().getApiKey());
         else
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (currentGroup.getUserId() == app.getCurrentUser().getUserId()){
+            // Este grupo pertence ao utilizador
+            getMenuInflater().inflate(R.menu.menu_group_owner,menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_group_visitor,menu);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuBtnNewEvent:
+                Toast.makeText(this, "New event!", Toast.LENGTH_SHORT);
+                finish();
+                return true;
+            case R.id.menuBtnSubscribe:
+                Toast.makeText(this, "Subscrever!", Toast.LENGTH_SHORT);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /*@Override
@@ -123,6 +152,40 @@ public class GroupPageActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class GroupSubscribeTask extends AsyncTask<String, Void, String> {
+
+        private final Context context;
+        GetRequest getRequest;
+        ProgressDialog progress;
+
+        GroupSubscribeTask(Context c) {
+            this.context = c;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progress = new ProgressDialog(this.context);
+            progress.setMessage(getResources().getString(R.string.loading));
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            getRequest = new GetRequest(strings[0], strings[1]);
+            if (getRequest.isError()) {
+                return getResources().getString(R.string.msg_already_subscribed);
+            } else {
+                return getResources().getString(R.string.msg_subscribed);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String msg) {
+            progress.dismiss();
+            Toast.makeText(this.context, msg, Toast.LENGTH_SHORT);
         }
     }
 

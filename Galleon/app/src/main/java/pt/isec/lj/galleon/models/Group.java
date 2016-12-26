@@ -67,4 +67,8 @@ public class Group {
         return events.size();
     }
 
+    public int getUserId(){
+        return userId;
+    }
+
 }
