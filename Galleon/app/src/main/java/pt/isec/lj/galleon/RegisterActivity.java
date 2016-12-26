@@ -55,7 +55,8 @@ public class RegisterActivity extends Activity {
         Uri.Builder builder = new Uri.Builder()
                 .appendQueryParameter("name", txtName.getText().toString())
                 .appendQueryParameter("email", txtEmail.getText().toString())
-                .appendQueryParameter("password", txtPassword.getText().toString());
+                .appendQueryParameter("password", txtPassword.getText().toString())
+                .appendQueryParameter("bdate", txtBDate.getText().toString());
         String query = builder.build().getEncodedQuery();
 
         new RegisterTask(this).execute("/register", query);

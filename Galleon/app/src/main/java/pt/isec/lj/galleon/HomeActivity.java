@@ -17,11 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import pt.isec.lj.galleon.API.GetRequest;
 import pt.isec.lj.galleon.API.Request;
+import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Group;
 import pt.isec.lj.galleon.models.User;
 
@@ -32,12 +36,16 @@ public class HomeActivity extends Activity {
     User currentUser;
     ProgressDialog progress;
 
+    ArrayList<Event> myEvents;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         app = (GalleonApp) getApplication();
+        myEvents = new ArrayList<Event>();
+
         if ((currentUser = app.getCurrentUser()) == null){
             app.unsetSharedPreferencesSess();
             startActivity(new Intent(this, LoginActivity.class));
@@ -46,7 +54,8 @@ public class HomeActivity extends Activity {
         ((TextView)findViewById(R.id.lblName)).setText(currentUser.getUserName());
         ((TextView)findViewById(R.id.lblEmail)).setText(currentUser.getUserEmail());
 
-        eventList = ((ListView) findViewById(R.id.lstEvents));
+        eventList = ((ListView) findViewById(R.id.lstMyEvents));
+        new GetMyEventsTask(this).execute("/userevents", currentUser.getApiKey());
     }
 
     @Override
@@ -75,41 +84,73 @@ public class HomeActivity extends Activity {
         }
     }
 
-    // É PRECISO CRIAR UM WORKER PARA IR BUSCAR OS MEUS EVENTOS
+    private class GetMyEventsTask extends AsyncTask<String, Void, String> {
 
-    class EventListAdapter extends BaseAdapter {
+        Context context;
+        Request getRequest;
 
-        @Override
-        public int getCount() {
-            return 1;
+        GetMyEventsTask (Context c){
+            this.context = c;
         }
 
         @Override
-        public Object getItem(int i) {
-            return "objecto evento";
+        protected void onPreExecute(){
+            progress= new ProgressDialog(this.context);
+            progress.setMessage(getResources().getString(R.string.loading));
+            progress.show();
         }
 
         @Override
-        public long getItemId(int i) {
-            return i;
+        protected String doInBackground(String... strings) {
+            getRequest = new GetRequest(strings[0],strings[1]);
+
+            if (getRequest.isError()){
+                String msg = getRequest.getMessage();
+                return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + getRequest.getResponseCode() + " " + msg);
+            }else {
+                try {
+                    saveData(new JSONObject(getRequest.getRaw()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return "";
+            }
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View layout = getLayoutInflater().inflate(R.layout.event_row, null);
+        protected void onPostExecute(String msg) {
+            progress.dismiss();
+            if (!msg.equals("")){
+                Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
+            }
+            eventList.setAdapter(new EventListAdapter());
+        }
 
-            String eventName = "EventoX";
-
-            LinearLayout ll = (LinearLayout) layout.findViewById(R.id.row);
-            ll.setBackgroundColor(i%2==0 ? Color.WHITE:Color.rgb(248,248,248));
-
-            ((TextView)layout.findViewById(R.id.lblEventName)).setText(eventName);
-
-            return layout;
+        private void saveData(JSONObject json){
+            try {
+                JSONArray events = json.getJSONArray("events");
+                for (int i = 0, size =  events.length(); i < size; i++){
+                    JSONObject event = events.getJSONObject(i);
+                    myEvents.add(new Event(
+                            event.getInt("id"),
+                            event.getString("name"),
+                            event.getString("description"),
+                            event.getString("location"),
+                            event.getString("eventdate"),
+                            event.getString("eventtime"),
+                            event.getInt("groupid"),
+                            event.getString("createdat"),
+                            event.getDouble("latitude"),
+                            event.getDouble("longitude")
+                    ));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    class GetUserGroupTask extends AsyncTask<String, Void, String> {
+    private class GetUserGroupTask extends AsyncTask<String, Void, String> {
 
         Context context;
         Request getRequest;
@@ -162,6 +203,41 @@ public class HomeActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    class EventListAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return myEvents.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return myEvents.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View layout = getLayoutInflater().inflate(R.layout.event_row, null);
+
+            LinearLayout ll = (LinearLayout) layout.findViewById(R.id.row);
+            ll.setBackgroundColor(i%2==0 ? Color.WHITE:Color.rgb(248,248,248));
+
+
+            ((TextView) layout.findViewById(R.id.lblEventDay)).setText(myEvents.get(i).getDate());
+            ((TextView) layout.findViewById(R.id.lblEventHour)).setText(myEvents.get(i).getTime());
+
+            ((TextView) layout.findViewById(R.id.lblEventName)).setText(myEvents.get(i).getName());
+            ((TextView) layout.findViewById(R.id.lblEventDescription)).setText(myEvents.get(i).getDescription());
+
+            return layout;
         }
     }
 }

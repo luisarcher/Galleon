@@ -17,12 +17,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import pt.isec.lj.galleon.API.GetRequest;
 import pt.isec.lj.galleon.models.Event;
@@ -44,8 +38,7 @@ public class GroupPageActivity extends Activity {
         if ((currentGroup = app.getGroup()) == null || !app.isSetUser())
             finish();
 
-        ((TextView)findViewById(R.id.lblGroupName)).setText(String.valueOf(currentGroup.getNumEvents()));
-        //((TextView)findViewById(R.id.lblGroupName)).setText(currentGroup.getGroupName());
+        ((TextView)findViewById(R.id.lblGroupName)).setText(currentGroup.getGroupName());
         ((TextView)findViewById(R.id.lblGroupCat)).setText(currentGroup.getGroupCat());
 
         eventList = ((ListView) findViewById(R.id.lstGroupEvents));
