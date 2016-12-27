@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+
+import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Group;
 import pt.isec.lj.galleon.models.User;
 
@@ -14,6 +16,7 @@ import pt.isec.lj.galleon.models.User;
 public class GalleonApp extends Application{
     private User currentUser;
     private Group currentGroup;
+    private Event currentEvent;
     //private ArrayList<Group> groups;
 
 
@@ -83,5 +86,13 @@ public class GalleonApp extends Application{
 
     public Group getGroup(){
         return currentGroup;
+    }
+
+    public void setCurrentEvent(Event e){
+        currentEvent = e;
+    }
+
+    public Event getCurrentEvent(){
+        return currentEvent;
     }
 }

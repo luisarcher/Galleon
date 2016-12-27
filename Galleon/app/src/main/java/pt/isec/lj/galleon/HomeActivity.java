@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,7 +45,7 @@ public class HomeActivity extends Activity {
         setContentView(R.layout.activity_home);
 
         app = (GalleonApp) getApplication();
-        myEvents = new ArrayList<Event>();
+        myEvents = new ArrayList<>();
 
         if ((currentUser = app.getCurrentUser()) == null){
             app.unsetSharedPreferencesSess();
@@ -56,6 +57,27 @@ public class HomeActivity extends Activity {
 
         eventList = ((ListView) findViewById(R.id.lstMyEvents));
         new GetMyEventsTask(this).execute("/userevents", currentUser.getApiKey());
+
+        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                //int itemPosition     = position;
+
+                // ListView Clicked item value
+                app.setCurrentEvent((Event)eventList.getItemAtPosition(position));
+                showEventActivity();
+                // Show Alert
+            }
+
+        });
+    }
+
+    public void showEventActivity(){
+        startActivity(new Intent(this, EventActivity.class));
     }
 
     @Override

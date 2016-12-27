@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="@drawable/sea_opt">
+    <LinearLayout
+    android:id="@+id/activity_event"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="pt.isec.lj.galleon.EventActivity"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblEventName_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_gravity="center_horizontal"
+            android:text="Event Name"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/white"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp">
+            <TextView
+                android:id="@+id/lblEventDay_act"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01/01/2017"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/lblEventTime_act"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="40dp"
+                android:text="23:59"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/lblEventDescription_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="This is the event description."
+            android:textColor="@android:color/white"
+            android:layout_marginTop="30dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/lblEventLocation_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="This is the event Location."
+            android:textColor="@android:color/white"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:layout_marginTop="30dp"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            >
+        <Button
+            android:id="@+id/btnEventMapView_act"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_event_view_map"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:textAlignment="center"
+            android:background="@drawable/style"
+            android:layout_gravity="center"
+            android:onClick="onViewMap"
+
+            android:padding="8sp"
+            android:drawableStart="@mipmap/ic_location"/>
+
+        <Button
+            android:id="@+id/btnEventGroupView_act"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_event_view_group"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:textAlignment="center"
+            android:background="@drawable/style"
+            android:layout_gravity="center"
+            android:onClick="onViewMap"
+            android:layout_marginStart="20dp"
+
+            android:padding="8sp"
+            android:drawableStart="@mipmap/ic_group_icon"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnEventShare_act"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_event_share"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:textAlignment="center"
+            android:background="@drawable/style"
+            android:layout_gravity="center"
+            android:layout_marginTop="28dp"
+            android:onClick="onEventShare"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:drawableStart="@mipmap/ic_share_icon"/>
+
+        <Button
+            android:id="@+id/btnEventSave_act"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_event_save"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:textAlignment="center"
+            android:background="@drawable/style"
+            android:layout_gravity="center"
+            android:layout_marginTop="28dp"
+            android:onClick="onEventSave"
+            android:drawableStart="@mipmap/ic_event_calendar_ok"
+            android:drawablePadding="0dp"
+            android:gravity="start|center"
+            android:layout_marginBottom="15dp"
+            />
+
+    </LinearLayout>
+</ScrollView>

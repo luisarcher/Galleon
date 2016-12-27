@@ -227,7 +227,7 @@
             android:textColorHint="#fff"/>
     </LinearLayout>
 
-    <TextView
+    <Button
         android:id="@+id/btnEventOk"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
