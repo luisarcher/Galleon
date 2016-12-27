@@ -3,6 +3,7 @@ package pt.isec.lj.galleon;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -67,11 +68,13 @@ public class GroupPageActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuBtnNewEvent:
-                Toast.makeText(this, "New event!", Toast.LENGTH_SHORT);
-                finish();
+                //Toast.makeText(this, "New event!", Toast.LENGTH_SHORT);
+                startActivity(new Intent(this, EventEditorActivity.class));
                 return true;
             case R.id.menuBtnSubscribe:
-                Toast.makeText(this, "Subscrever!", Toast.LENGTH_SHORT);
+                //Toast.makeText(this, "Subscrever!", Toast.LENGTH_SHORT);
+                new GroupSubscribeTask(this).execute("/subscribe/" + currentGroup.getId(),
+                        app.getCurrentUser().getApiKey());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -185,7 +188,7 @@ public class GroupPageActivity extends Activity {
         @Override
         protected void onPostExecute(String msg) {
             progress.dismiss();
-            Toast.makeText(this.context, msg, Toast.LENGTH_SHORT);
+            Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
         }
     }
 

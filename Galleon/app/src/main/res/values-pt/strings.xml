@@ -16,6 +16,19 @@
     <string name="group_ok">Tornar-se um capitão</string>
     <string name="group_progress_msg">A configurar a página...</string>
     <string name="group_search">Procurar grupos</string>
-    <string name="grouppage_setup">Configurar a pagina do grupo</string>
+    <string name="grouppage_setup">Configurar a página do grupo</string>
     <string name="register_success">Registado com sucesso!</string>
+    <string name="date">Data</string>
+    <string name="event_allow_share">Permitir partilha</string>
+    <string name="event_create_success">Evento criado com sucesso!</string>
+    <string name="frm_description">Descrição</string>
+    <string name="frm_event_name">Nome do Evento</string>
+    <string name="frm_location">Localização ou morada</string>
+    <string name="msg_already_subscribed">Já está subscrito!</string>
+    <string name="msg_subscribed">Subscrito!</string>
+    <string name="new_event">Criar novo evento</string>
+    <string name="private_event">Evento privado</string>
+    <string name="subscribe">Subscrever</string>
+    <string name="time">Hora</string>
+    <string name="title_create_new_event">Criar novo evento</string>
 </resources>
