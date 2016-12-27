@@ -31,4 +31,12 @@
     <string name="subscribe">Subscrever</string>
     <string name="time">Hora</string>
     <string name="title_create_new_event">Criar novo evento</string>
+    <string name="btn_create_event">Criar evento</string>
+    <string name="reg_birth_date">Data nasc.</string>
+    <string name="reg_btn_sign_up">Registar</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_name">Nome</string>
+    <string name="reg_passwd">Password</string>
+    <string name="reg_repeat_passwd">Repita a Password</string>
+    <string name="register_title">Bem-Vindo a Bordo!</string>
 </resources>
