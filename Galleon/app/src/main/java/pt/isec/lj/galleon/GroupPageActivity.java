@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,12 +45,32 @@ public class GroupPageActivity extends Activity {
         ((TextView)findViewById(R.id.lblGroupName)).setText(currentGroup.getGroupName());
         ((TextView)findViewById(R.id.lblGroupCat)).setText(currentGroup.getGroupCat());
 
-        eventList = ((ListView) findViewById(R.id.lstGroupEvents));
-
         if (((GalleonApp)getApplication()).isNetworkAvailable(this))
             new GroupPageEventsTask(this).execute("/events/" + currentGroup.getId(), app.getCurrentUser().getApiKey());
         else
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+
+        eventList = ((ListView) findViewById(R.id.lstGroupEvents));
+        eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                //int itemPosition     = position;
+
+                // ListView Clicked item value
+                app.setCurrentEvent((Event)eventList.getItemAtPosition(position));
+                showEventActivity();
+                // Show Alert
+            }
+
+        });
+    }
+
+    public void showEventActivity(){
+        startActivity(new Intent(this, EventActivity.class));
     }
 
     @Override

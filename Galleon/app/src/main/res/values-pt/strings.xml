@@ -39,4 +39,12 @@
     <string name="reg_passwd">Password</string>
     <string name="reg_repeat_passwd">Repita a Password</string>
     <string name="register_title">Bem-Vindo a Bordo!</string>
+    <string name="btn_event_save">Guardar</string>
+    <string name="btn_event_share">Partilhar</string>
+    <string name="btn_event_view_group">Grupo</string>
+    <string name="btn_event_view_map">Mapas</string>
+    <string name="failed_to_send">Não foi possível enviar o evento!</string>
+    <string name="msg_event_sent">Evento Enviado!</string>
+    <string name="serverdlg_msg">À espera de ligação</string>
+    <string name="serverdlg_title">Enviar Evento</string>
 </resources>

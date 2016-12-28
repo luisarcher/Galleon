@@ -3,11 +3,13 @@ package pt.isec.lj.galleon.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by luism on 24/12/2016
  */
 
-public class Event {
+public class Event implements Serializable{
     private int eventId;
     private String name;
     private String description;

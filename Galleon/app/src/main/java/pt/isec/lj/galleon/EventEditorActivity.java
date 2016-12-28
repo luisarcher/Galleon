@@ -3,7 +3,6 @@ package pt.isec.lj.galleon;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,7 +22,7 @@ public class EventEditorActivity extends Activity {
     private EditText txtEventDate;
     private EditText txtEventTime;
     private CheckBox chkEventPrivate;
-    private CheckBox chkEventShare;
+    private CheckBox chkEventNoShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,7 @@ public class EventEditorActivity extends Activity {
         txtEventDate = (EditText) findViewById(R.id.txtEventDate);
         txtEventTime = (EditText) findViewById(R.id.txtEventTime);
         chkEventPrivate = (CheckBox) findViewById(R.id.chkEventPrivate);
-        chkEventShare = (CheckBox) findViewById(R.id.chkEventShare);
+        chkEventNoShare = (CheckBox) findViewById(R.id.chkEventShare);
     }
 
     public void onCreateEvent(View v){
@@ -53,7 +52,7 @@ public class EventEditorActivity extends Activity {
         }
 
         Integer privateEvent = (chkEventPrivate.isChecked()) ? 1 : 0;
-        Integer sharedEvent = (chkEventShare.isChecked()) ? 1 : 0;
+        Integer nonSharedEvent = (chkEventNoShare.isChecked()) ? 0 : 1;
 
         // Existe uma verificação do lado do servidor se este grupo pertence de facto ao utilizador devido a pedidos forjados.
         Uri.Builder builder = new Uri.Builder()
@@ -64,7 +63,7 @@ public class EventEditorActivity extends Activity {
                 .appendQueryParameter("eventdate", txtEventDate.getText().toString())
                 .appendQueryParameter("eventtime", txtEventTime.getText().toString())
                 .appendQueryParameter("isprivate", privateEvent.toString())
-                .appendQueryParameter("isshared", sharedEvent.toString());
+                .appendQueryParameter("isshared", nonSharedEvent.toString());
         String query = builder.build().getEncodedQuery();
 
         new CreateNewEventTask(this).execute("/event", query, app.getCurrentUser().getApiKey());
