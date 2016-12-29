@@ -170,7 +170,9 @@ public class GroupPageActivity extends Activity {
                             event.getInt("groupid"),
                             event.getString("createdat"),
                             event.getDouble("latitude"),
-                            event.getDouble("longitude")
+                            event.getDouble("longitude"),
+                            event.getInt("isprivate"),
+                            event.getInt("isshared")
                     ));
                 }
             } catch (JSONException e) {

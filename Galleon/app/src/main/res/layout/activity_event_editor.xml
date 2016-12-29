@@ -78,7 +78,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
             android:background="@mipmap/ic_event_description"
-            android:contentDescription="Event description"/>
+            android:contentDescription="@string/frm_description"/>
 
         <EditText
             android:id="@+id/txtEventDesc"
@@ -124,12 +124,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="50dp">
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginStart="50dp"
             android:layout_marginTop="15dp"
             android:background="@mipmap/ic_event_calendar"
             android:contentDescription="@string/date"/>
@@ -146,7 +146,7 @@
         </DatePicker>-->
         <EditText
             android:id="@+id/txtEventDate"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:textColor="#fff"
@@ -155,24 +155,16 @@
             android:padding="12dp"
             android:hint="@string/date"
             android:textColorHint="#fff"/>
-    </LinearLayout>
-
-    <!-- DATA NASC-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="15dp"
             android:background="@mipmap/ic_time"
             android:contentDescription="@string/time"/>
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="time"
             android:id="@+id/txtEventTime"
@@ -181,12 +173,34 @@
             android:textColor="#fff"
             android:padding="12dp"
             android:textColorHint="#fff"/>
+    </LinearLayout>
+
+    <!-- DATA NASC-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="50dp">
+
+
         <!--<TimePicker
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numbersTextColor="@android:color/white">
 
         </TimePicker>-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/txtEventLat"
+            android:hint="@string/time"
+            android:textSize="16sp"
+            android:textColor="#fff"
+            android:padding="12dp"
+            android:textColorHint="#fff"/>
     </LinearLayout>
 
     <LinearLayout

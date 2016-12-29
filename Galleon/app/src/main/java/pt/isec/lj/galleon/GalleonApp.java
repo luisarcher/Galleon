@@ -5,6 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
+
 import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Group;
 import pt.isec.lj.galleon.models.User;

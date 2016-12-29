@@ -10,6 +10,9 @@ import java.io.Serializable;
  */
 
 public class Event implements Serializable{
+
+    static final long serialVersionUID = 1010L;
+
     private int eventId;
     private String name;
     private String description;
@@ -20,8 +23,10 @@ public class Event implements Serializable{
     private String createdAt;
     private Double latitude;
     private Double longitude;
+    private int isPrivate;
+    private int sharingAllowed;
 
-    public Event(int id, String n, String desc, String loc, String dt, String t, int gid, String ca, Double lat, Double lon){
+    public Event(int id, String n, String desc, String loc, String dt, String t, int gid, String ca, Double lat, Double lon, int priv, int shar){
         this.eventId = id;
         this.name = n;
         this.description = desc;
@@ -32,6 +37,8 @@ public class Event implements Serializable{
         this.createdAt = ca;
         this.latitude = lat;
         this.longitude = lon;
+        this.isPrivate = priv;
+        this.sharingAllowed = shar;
     }
 
     public Event(JSONObject event) {
@@ -47,6 +54,8 @@ public class Event implements Serializable{
             this.createdAt = event.getString("createdat");
             this.latitude = event.getDouble("latitude");
             this.longitude = event.getDouble("longitude");
+            this.isPrivate = event.getInt("isprivate");
+            this.sharingAllowed = event.getInt("isshared");
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -91,5 +100,18 @@ public class Event implements Serializable{
 
     public Double getLongitude() {
         return longitude;
+    }
+
+    public boolean isPrivate(){
+        return (isPrivate != 0);
+    }
+
+    public boolean sharingAllowed(){
+        return (sharingAllowed != 0);
+    }
+
+    @Override
+    public String toString(){
+        return name;
     }
 }

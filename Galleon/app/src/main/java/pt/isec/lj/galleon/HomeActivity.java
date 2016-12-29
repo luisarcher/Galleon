@@ -1,18 +1,24 @@
 package pt.isec.lj.galleon;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,12 +28,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import pt.isec.lj.galleon.API.GetRequest;
 import pt.isec.lj.galleon.API.Request;
 import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Group;
+import pt.isec.lj.galleon.models.Invite;
 import pt.isec.lj.galleon.models.User;
 
 public class HomeActivity extends Activity {
@@ -38,6 +47,7 @@ public class HomeActivity extends Activity {
     ProgressDialog progress;
 
     ArrayList<Event> myEvents;
+    DataReceiver eventReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +71,9 @@ public class HomeActivity extends Activity {
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                //int itemPosition     = position;
-
-                // ListView Clicked item value
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 app.setCurrentEvent((Event)eventList.getItemAtPosition(position));
                 showEventActivity();
-                // Show Alert
             }
 
         });
@@ -80,10 +83,24 @@ public class HomeActivity extends Activity {
         startActivity(new Intent(this, EventActivity.class));
     }
 
+    public void showInvite(String server_api_key){
+        //startActivity(new Intent(this, EventActivity.class));
+        Intent i = new Intent(this, EventActivity.class);
+        i.putExtra("SERVER_API_KEY", server_api_key);
+        startActivity(i);
+    }
+
     @Override
     protected void onResume(){
         super.onResume();
         eventList.setAdapter(new EventListAdapter());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (eventReceiver != null)
+            eventReceiver.terminate();
     }
 
     @Override
@@ -100,6 +117,9 @@ public class HomeActivity extends Activity {
                 return true;
             case R.id.menuFindGroups:
                 startActivity(new Intent(this, ExploreActivity.class));
+                return true;
+            case R.id.menuReceiveEvent:
+                eventReceiver = new DataReceiver(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -163,7 +183,9 @@ public class HomeActivity extends Activity {
                             event.getInt("groupid"),
                             event.getString("createdat"),
                             event.getDouble("latitude"),
-                            event.getDouble("longitude")
+                            event.getDouble("longitude"),
+                            event.getInt("isprivate"),
+                            event.getInt("isshared")
                     ));
                 }
             } catch (JSONException e) {
@@ -260,6 +282,106 @@ public class HomeActivity extends Activity {
             ((TextView) layout.findViewById(R.id.lblEventDescription)).setText(myEvents.get(i).getDescription());
 
             return layout;
+        }
+    }
+
+    private class DataReceiver {
+
+        private static final int PORT = 8899;
+
+        Context context;
+        Handler procMsg;
+        Socket socket;
+
+        ObjectInputStream ois;
+
+        Invite invite;
+
+        DataReceiver(Context c){
+            this.context = c;
+            this.procMsg = new Handler();
+            this.socket = null;
+            ois = null;
+
+            if (!app.isNetworkAvailable(context)){
+                Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
+            } else
+                clientDlg();
+        }
+
+        private void clientDlg(){
+            final EditText edtIP = new EditText(context);
+            edtIP.setText("192.168.0.1");
+            AlertDialog ad = new AlertDialog.Builder(context).setTitle(R.string.dlg_title_event_receive)
+                    .setMessage("Server IP").setView(edtIP)
+                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            client(edtIP.getText().toString(), PORT); // to test with emulators: PORTaux);
+                        }
+                    }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            finish();
+                        }
+                    }).create();
+            ad.show();
+        }
+
+        void client(final String strIP, final int Port) {
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Log.d("EventComm", "Connecting to the server  " + strIP);
+                        socket = new Socket(strIP, Port);
+                    } catch (Exception e) {
+                        socket = null;
+                    }
+                    commThread.start();
+                }
+            });
+            t.start();
+        }
+
+        Thread commThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ois = new ObjectInputStream(socket.getInputStream());
+                    invite = (Invite) ois.readObject();
+                    app.setCurrentEvent(invite.getEvent());
+                    showInvite(invite.getApi());
+
+                    Log.d("RPS", "Received: " + invite.toString());
+                    procMsg.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), (R.string.you_were_invited_to + " " + invite.toString()) , Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } catch (Exception e) {
+                    procMsg.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), R.string.failed_to_send, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        public void terminate(){
+            try {
+                commThread.interrupt();
+                if (socket != null)
+                    socket.close();
+                if (ois != null)
+                    ois.close();
+            } catch (Exception e) {
+            }
+            ois = null;
+            socket = null;
         }
     }
 }

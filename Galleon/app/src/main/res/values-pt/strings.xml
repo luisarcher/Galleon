@@ -6,7 +6,7 @@
     <string name="lets_start">Vamos começar!</string>
     <string name="loading">A carregar...</string>
     <string name="logging_in">A autenticar...</string>
-    <string name="login_success">Login com sucesso!</string>
+    <string name="login_success">Bem-vindo!</string>
     <string name="no_internet">Não existe ligação á internet!</string>
     <string name="not_matching_passwords">Passwords não são iguais!</string>
     <string name="group_cat">Descrição ou categoria</string>
@@ -47,4 +47,7 @@
     <string name="msg_event_sent">Evento Enviado!</string>
     <string name="serverdlg_msg">À espera de ligação</string>
     <string name="serverdlg_title">Enviar Evento</string>
+    <string name="failed_to_receive">Não foi possível receber o evento!</string>
+    <string name="dlg_title_event_receive">Receber convite</string>
+    <string name="you_were_invited_to">Foi convidado para</string>
 </resources>

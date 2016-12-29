@@ -8,6 +8,11 @@
 
     <item android:title="@string/group_create"
           android:icon="@drawable/ico_rudder"
-          android:showAsAction="always"
+          android:showAsAction="ifRoom"
           android:id="@+id/menuCreateGroup"/>
+
+    <item android:title="@string/dlg_title_event_receive"
+          android:icon="@mipmap/ic_data_receive"
+          android:showAsAction="ifRoom"
+          android:id="@+id/menuReceiveEvent"/>
 </menu>

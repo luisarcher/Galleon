@@ -21,6 +21,7 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import pt.isec.lj.galleon.models.Event;
+import pt.isec.lj.galleon.models.Invite;
 
 public class EventActivity extends Activity {
 
@@ -90,12 +91,11 @@ public class EventActivity extends Activity {
             progressDlg = null;
             serverSocket = null;
             socketToClient = null;
+            oos = null;
 
             if (!app.isNetworkAvailable(context)){
                 Toast.makeText(context, R.string.no_internet, Toast.LENGTH_SHORT).show();
-            }
-
-            server();
+            } else server();
         }
 
         private void server(){
@@ -145,8 +145,8 @@ public class EventActivity extends Activity {
             public void run() {
                 try {
                     oos = new ObjectOutputStream(socketToClient.getOutputStream());
-                    String t = "Hello from Android!";
-                    oos.writeObject(t);
+                    Invite invite = new Invite(actualEvent, app.getCurrentUser().getApiKey());
+                    oos.writeObject(invite);
                     oos.flush();
 
                     procMsg.post(new Runnable() {
