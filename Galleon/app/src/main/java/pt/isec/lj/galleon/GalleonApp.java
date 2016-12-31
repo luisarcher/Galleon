@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -23,20 +25,20 @@ public class GalleonApp extends Application{
     private User currentUser;
     private Group currentGroup;
     private Event currentEvent;
-    //private ArrayList<Group> groups;
+    private LatLng currentLocation;
 
+    public static boolean flag_creating_event_with_gps = false;
+
+    //private ArrayList<Group> groups;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-
-        /*events.add(new Event("evento1"));
-        events.add(new Event("evento2"));
-        events.add(new Event("evento3"));
-        events.add(new Event("evento4"));
-        events.add(new Event("evento5"));
-        events.add(new Event("evento6"));*/
+        currentUser = null;
+        currentGroup = null;
+        currentEvent = null;
+        currentLocation = null;
     }
 
     /*public void addGroup(Group g){
@@ -100,5 +102,13 @@ public class GalleonApp extends Application{
 
     public Event getCurrentEvent(){
         return currentEvent;
+    }
+
+    public LatLng getCurrentLocation(){
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(LatLng loc){
+        currentLocation = loc;
     }
 }

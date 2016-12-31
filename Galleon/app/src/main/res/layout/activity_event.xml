@@ -19,21 +19,22 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:layout_gravity="center_horizontal"
-            android:text="Event Name"
-            android:layout_marginTop="50dp"
-            android:textColor="@android:color/white"/>
+            android:text="Golden Bar \n Jazz ao vivo"
+            android:layout_marginTop="35dp"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="30dp">
             <TextView
                 android:id="@+id/lblEventDay_act"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01/01/2017"
+                android:text="18/01/2017"
                 android:textSize="24sp"
                 android:textColor="@android:color/white"/>
 
@@ -44,7 +45,7 @@
                 android:textSize="24sp"
                 android:textColor="@android:color/white"
                 android:layout_marginStart="40dp"
-                android:text="23:59"/>
+                android:text="21:45"/>
         </LinearLayout>
 
 
@@ -53,10 +54,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textSize="20sp"
-            android:text="This is the event description."
+            android:textSize="18sp"
+            android:text="O carácter jazzístico deste espaço, proporcionou condições ao longo de décadas, para reunir alguns dos nomes mais sonantes no panorama da musica jazz nacional."
             android:textColor="@android:color/white"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
             android:textAlignment="center"/>
@@ -67,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
-            android:text="This is the event Location."
+            android:text="Golden Bar - Rua Clássica nº23"
             android:textColor="@android:color/white"
             android:paddingStart="60dp"
             android:paddingEnd="60dp"
@@ -79,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             >

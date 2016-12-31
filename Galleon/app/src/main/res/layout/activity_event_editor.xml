@@ -194,13 +194,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:id="@+id/txtEventLat"
-            android:hint="@string/time"
             android:textSize="16sp"
-            android:textColor="#fff"
+            android:textColor="#aaa"
             android:padding="12dp"
-            android:textColorHint="#fff"/>
+            android:text="@string/add_gps_data"
+            android:onClick="onMaps"
+            />
     </LinearLayout>
 
     <LinearLayout

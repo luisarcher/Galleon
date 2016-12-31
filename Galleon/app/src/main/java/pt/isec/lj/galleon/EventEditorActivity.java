@@ -3,6 +3,7 @@ package pt.isec.lj.galleon;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,6 +55,17 @@ public class EventEditorActivity extends Activity {
         Integer privateEvent = (chkEventPrivate.isChecked()) ? 1 : 0;
         Integer nonSharedEvent = (chkEventNoShare.isChecked()) ? 0 : 1;
 
+        Double latitude = 0.0;
+        Double longitude = 0.0;
+
+        if (app.flag_creating_event_with_gps && app.getCurrentLocation() != null){
+            latitude = app.getCurrentLocation().latitude;
+            longitude = app.getCurrentLocation().longitude;
+
+            //reset the flag
+            app.flag_creating_event_with_gps = false;
+        }
+
         // Existe uma verificação do lado do servidor se este grupo pertence de facto ao utilizador devido a pedidos forjados.
         Uri.Builder builder = new Uri.Builder()
                 .appendQueryParameter("eventname", txtEventName.getText().toString())
@@ -63,7 +75,9 @@ public class EventEditorActivity extends Activity {
                 .appendQueryParameter("eventdate", txtEventDate.getText().toString())
                 .appendQueryParameter("eventtime", txtEventTime.getText().toString())
                 .appendQueryParameter("isprivate", privateEvent.toString())
-                .appendQueryParameter("isshared", nonSharedEvent.toString());
+                .appendQueryParameter("isshared", nonSharedEvent.toString())
+                .appendQueryParameter("latitude", latitude.toString())
+                .appendQueryParameter("longitude", longitude.toString());
         String query = builder.build().getEncodedQuery();
 
         new CreateNewEventTask(this).execute("/event", query, app.getCurrentUser().getApiKey());
@@ -113,5 +127,10 @@ public class EventEditorActivity extends Activity {
             Toast.makeText(this.context, message, Toast.LENGTH_SHORT).show();
             finish();
         }
+
+    }
+
+    public void onMaps(View v){
+        startActivity(new Intent(this, EventMapActivity.class));
     }
 }

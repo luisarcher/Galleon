@@ -47,6 +47,8 @@ public class HomeActivity extends Activity {
     ProgressDialog progress;
 
     ArrayList<Event> myEvents;
+
+    // Cliente TCP para receber um evento privado pela socket
     DataReceiver eventReceiver;
 
     @Override
@@ -93,7 +95,7 @@ public class HomeActivity extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
-        eventList.setAdapter(new EventListAdapter());
+        new GetMyEventsTask(this).execute("/userevents", currentUser.getApiKey());
     }
 
     @Override

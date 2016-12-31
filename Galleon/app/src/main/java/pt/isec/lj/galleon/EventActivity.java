@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -36,6 +37,9 @@ public class EventActivity extends Activity {
 
     DataSender eventSender;
 
+    Double eventLat;
+    Double eventLon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +59,9 @@ public class EventActivity extends Activity {
         lblEventTime.setText(actualEvent.getTime());
         lblEventDescription.setText(actualEvent.getDescription());
         lblEventLocation.setText(actualEvent.getLocation());
-    }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
+        eventLat = actualEvent.getLatitude();
+        eventLon = actualEvent.getLongitude();
     }
 
     @Override
@@ -71,6 +73,16 @@ public class EventActivity extends Activity {
 
     public void onEventShare(View v){
         eventSender = new DataSender(this);
+    }
+
+    public void onViewMap(View v){
+        if (eventLat.intValue() != 0 || eventLon.intValue() != 0){
+            Intent i = new Intent(this, MapActivity.class);
+            i.putExtra("event_lat", eventLat);
+            i.putExtra("event_lon", eventLon);
+            startActivity(i);
+        } else
+            Toast.makeText(this, R.string.gps_coordinates_not_available , Toast.LENGTH_SHORT).show();
     }
 
     private class DataSender {
