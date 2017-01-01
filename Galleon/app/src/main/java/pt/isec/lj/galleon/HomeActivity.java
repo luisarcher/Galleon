@@ -68,7 +68,7 @@ public class HomeActivity extends Activity {
         ((TextView)findViewById(R.id.lblEmail)).setText(currentUser.getUserEmail());
 
         eventList = ((ListView) findViewById(R.id.lstMyEvents));
-        new GetMyEventsTask(this).execute("/userevents", currentUser.getApiKey());
+        //new GetMyEventsTask(this).execute("/userevents", currentUser.getApiKey());
 
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -173,6 +173,7 @@ public class HomeActivity extends Activity {
         private void saveData(JSONObject json){
             try {
                 JSONArray events = json.getJSONArray("events");
+                myEvents.clear();
                 for (int i = 0, size =  events.length(); i < size; i++){
                     JSONObject event = events.getJSONObject(i);
                     myEvents.add(new Event(

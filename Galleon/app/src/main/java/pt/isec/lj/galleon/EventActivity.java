@@ -75,6 +75,11 @@ public class EventActivity extends Activity {
         eventSender = new DataSender(this);
     }
 
+    public void onEventSave(View v){
+        CalendarManager cm = new CalendarManager(this);
+        cm.addEvent(actualEvent);
+    }
+
     public void onViewMap(View v){
         if (eventLat.intValue() != 0 || eventLon.intValue() != 0){
             Intent i = new Intent(this, MapActivity.class);

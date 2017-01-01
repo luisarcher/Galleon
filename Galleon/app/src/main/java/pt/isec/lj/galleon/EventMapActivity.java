@@ -104,17 +104,16 @@ public class EventMapActivity extends Activity implements LocationListener, OnMa
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
-            } else {
-
-                map.setMyLocationEnabled(true);
-                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                map.getUiSettings().setCompassEnabled(true);
-                map.getUiSettings().setZoomControlsEnabled(true);
-                map.getUiSettings().setZoomGesturesEnabled(true);
-
-                googleMap = map;
             }
         }
+
+        map.setMyLocationEnabled(true);
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        map.getUiSettings().setCompassEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
+        map.getUiSettings().setZoomGesturesEnabled(true);
+
+        googleMap = map;
     }
 
     public void updateCameraPosition(GoogleMap map, LatLng localizacao, String title){

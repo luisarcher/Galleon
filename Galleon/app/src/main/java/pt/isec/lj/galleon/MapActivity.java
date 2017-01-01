@@ -49,8 +49,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback {
                 finish();
                 return;
             }
-
         }
+
         map.setMyLocationEnabled(true);
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         map.getUiSettings().setCompassEnabled(true);
