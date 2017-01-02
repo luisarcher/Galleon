@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import pt.isec.lj.galleon.API.GetRequest;
 import pt.isec.lj.galleon.models.Event;
 import pt.isec.lj.galleon.models.Invite;
 
@@ -72,10 +74,18 @@ public class EventActivity extends Activity {
     }
 
     public void onEventShare(View v){
-        eventSender = new DataSender(this);
+        if (actualEvent.sharingAllowed())
+            eventSender = new DataSender(this);
+        else
+            Toast.makeText(this, R.string.event_non_shared, Toast.LENGTH_LONG).show();
     }
 
     public void onEventSave(View v){
+        new EventSubscribeTask(this).execute("/subevent/" + actualEvent.getEventId(),
+                app.getCurrentUser().getApiKey());
+    }
+
+    public void saveThisEventOnCalendar(){
         CalendarManager cm = new CalendarManager(this);
         cm.addEvent(actualEvent);
     }
@@ -123,12 +133,12 @@ public class EventActivity extends Activity {
             progressDlg.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
-                    if (serverSocket!=null) {
-                        try {
-                            serverSocket.close();
-                        } catch (IOException e) {}
-                        serverSocket=null;
-                    }
+                if (serverSocket!=null) {
+                    try {
+                        serverSocket.close();
+                    } catch (IOException e) {}
+                    serverSocket=null;
+                }
                 }
             });
             progressDlg.show();
@@ -136,22 +146,22 @@ public class EventActivity extends Activity {
             Thread t = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        serverSocket = new ServerSocket(PORT);
-                        socketToClient = serverSocket.accept();
-                        serverSocket.close();
-                        serverSocket=null;
-                        commThread.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        socketToClient = null;
+                try {
+                    serverSocket = new ServerSocket(PORT);
+                    socketToClient = serverSocket.accept();
+                    serverSocket.close();
+                    serverSocket=null;
+                    commThread.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    socketToClient = null;
+                }
+                procMsg.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDlg.dismiss();
                     }
-                    procMsg.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressDlg.dismiss();
-                        }
-                    });
+                });
                 }
             });
             t.start();
@@ -160,26 +170,26 @@ public class EventActivity extends Activity {
         Thread commThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    oos = new ObjectOutputStream(socketToClient.getOutputStream());
-                    Invite invite = new Invite(actualEvent, app.getCurrentUser().getApiKey());
-                    oos.writeObject(invite);
-                    oos.flush();
+            try {
+                oos = new ObjectOutputStream(socketToClient.getOutputStream());
+                Invite invite = new Invite(actualEvent, app.getCurrentUser().getApiKey());
+                oos.writeObject(invite);
+                oos.flush();
 
-                    procMsg.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), R.string.msg_event_sent, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                } catch (Exception e) {
-                    procMsg.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), R.string.failed_to_send, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+                procMsg.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), R.string.msg_event_sent, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (Exception e) {
+                procMsg.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), R.string.failed_to_send, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
             }
         });
 
@@ -214,6 +224,41 @@ public class EventActivity extends Activity {
             }
             oos = null;
             socketToClient = null;
+        }
+    }
+
+    private class EventSubscribeTask extends AsyncTask<String, Void, String> {
+
+        private final Context context;
+        GetRequest getRequest;
+        ProgressDialog progress;
+
+        EventSubscribeTask(Context c) {
+            this.context = c;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progress = new ProgressDialog(this.context);
+            progress.setMessage(getResources().getString(R.string.loading));
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            getRequest = new GetRequest(strings[0], strings[1]);
+            if (getRequest.isError()) {
+                return getResources().getString(R.string.msg_already_subscribed);
+            } else {
+                saveThisEventOnCalendar();
+                return getResources().getString(R.string.msg_subscribed);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String msg) {
+            progress.dismiss();
+            Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
         }
     }
 }

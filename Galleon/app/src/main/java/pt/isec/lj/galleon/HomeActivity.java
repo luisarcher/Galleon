@@ -123,6 +123,9 @@ public class HomeActivity extends Activity {
             case R.id.menuReceiveEvent:
                 eventReceiver = new DataReceiver(this);
                 return true;
+            case R.id.menuSettings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

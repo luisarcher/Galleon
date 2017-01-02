@@ -122,7 +122,7 @@ public class RegisterActivity extends Activity {
 
             // Arranca uma nova activity e apaga as posteriores
             Intent i = new Intent(this.context, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }
     }

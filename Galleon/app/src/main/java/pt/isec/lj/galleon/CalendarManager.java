@@ -52,7 +52,7 @@ public class CalendarManager {
         SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss");
 
         String eventDate = "" + event.getDate() + " " + event.getTime();
-        Toast.makeText(context, eventDate , Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, eventDate , Toast.LENGTH_LONG).show();
         Date date;
 
         try {
@@ -103,6 +103,6 @@ public class CalendarManager {
         Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
         long eventId = Long.parseLong(uri.getLastPathSegment());
         Log.d("Novo evento ", String.valueOf(eventId));
-        Toast.makeText(context, "Saved: " + eventId, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Saved: " + eventId, Toast.LENGTH_LONG).show();
     }
 }

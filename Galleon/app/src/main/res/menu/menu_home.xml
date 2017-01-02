@@ -15,4 +15,9 @@
           android:icon="@mipmap/ic_data_receive"
           android:showAsAction="ifRoom"
           android:id="@+id/menuReceiveEvent"/>
+
+    <item android:title="@string/menu_settings"
+          android:icon="@mipmap/ic_settings"
+          android:showAsAction="ifRoom"
+          android:id="@+id/menuSettings"/>
 </menu>

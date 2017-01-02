@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<EditTextPreference
+        android:title="titulo"
+        android:summary="sumario"
+        android:key="user_preference"-->
+
+    <Preference
+        android:title="@string/pref_logout"
+        android:key="pref_logout"/>
+
+    <PreferenceScreen
+        android:title="@string/pref_about"
+        android:key="pref_about">
+        <Preference android:title="@string/val_nome_projecto"/>
+        <Preference android:title="@string/author"
+                    android:summary="@string/val_autor"/>
+        <Preference android:title="@string/val_disciplina"/>
+        <Preference android:title="@string/professor"
+                    android:summary="@string/val_professor"/>
+        <Preference android:title="@string/val_campus"
+                    android:summary="@string/val_campus_summ"/>
+        <Preference android:title="@string/reg_email"
+                    android:summary="@string/val_contact"/>
+    </PreferenceScreen>
+
+</PreferenceScreen>

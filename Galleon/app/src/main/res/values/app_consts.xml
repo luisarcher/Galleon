@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="val_nome_projecto">Galleon</string>
+    <string name="val_autor">Luís Miguel C. Jordão</string>
+    <string name="val_professor">Àlvaro Nuno Santos</string>
+    <string name="val_disciplina">Arquitecturas Móveis</string>
+    <string name="val_campus">Instituto Superior de Engenharia de Coimbra</string>
+    <string name="val_campus_summ">Departamento de Engenharia Informática e de Sistemas</string>
+    <string name="val_contact">a21201026@isec.pt</string>
+</resources>
