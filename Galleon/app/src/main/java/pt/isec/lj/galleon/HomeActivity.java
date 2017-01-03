@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,7 +76,6 @@ public class HomeActivity extends Activity {
                 app.setCurrentEvent((Event)eventList.getItemAtPosition(position));
                 showEventActivity();
             }
-
         });
     }
 
@@ -117,7 +115,7 @@ public class HomeActivity extends Activity {
             case R.id.menuCreateGroup:
                 new GetUserGroupTask(this).execute("/usergroup",currentUser.getApiKey());
                 return true;
-            case R.id.menuFindGroups:
+            case R.id.menuSearch:
                 startActivity(new Intent(this, ExploreActivity.class));
                 return true;
             case R.id.menuReceiveEvent:
@@ -246,7 +244,7 @@ public class HomeActivity extends Activity {
             try {
                 app.setGroup(new Group(
                         json.getInt("groupid"),
-                        currentUser.getUserId(),
+                        json.getInt("userid"),
                         json.getString("groupname"),
                         json.getString("groupcat"),
                         json.getString("createdat")));

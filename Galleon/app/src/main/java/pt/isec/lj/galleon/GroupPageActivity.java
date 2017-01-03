@@ -45,10 +45,6 @@ public class GroupPageActivity extends Activity {
         ((TextView)findViewById(R.id.lblGroupName)).setText(currentGroup.getGroupName());
         ((TextView)findViewById(R.id.lblGroupCat)).setText(currentGroup.getGroupCat());
 
-        if (((GalleonApp)getApplication()).isNetworkAvailable(this))
-            new GroupPageEventsTask(this).execute("/events/" + currentGroup.getId(), app.getCurrentUser().getApiKey());
-        else
-            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
 
         eventList = ((ListView) findViewById(R.id.lstGroupEvents));
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,12 +98,17 @@ public class GroupPageActivity extends Activity {
         }
     }
 
-    /*@Override
+    @Override
     protected void onResume(){
         super.onResume();
 
-        eventList.setAdapter(new GroupEventListAdapter());
-    }*/
+        if (((GalleonApp)getApplication()).isNetworkAvailable(this))
+            new GroupPageEventsTask(this).execute("/events/" + currentGroup.getId(), app.getCurrentUser().getApiKey());
+        else
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+
+        //eventList.setAdapter(new GroupEventListAdapter());
+    }
 
     private class GroupPageEventsTask extends AsyncTask<String, Void, String> {
 

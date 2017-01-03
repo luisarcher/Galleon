@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/row"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:layout_marginTop="15dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+
+        <!--<ImageView
+            android:id="@+id/imgGroupImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:drawable/ic_menu_gallery"
+            android:contentDescription="Group Image"/>-->
+
+
+        <TextView
+            android:id="@+id/lblGroupName_row"
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:text="Group Name"
+            android:layout_marginStart="30dp"/>
+
+        <TextView
+            android:id="@+id/lblGroupCategory_row"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:text="Category"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#99A1AC"
+            android:layout_marginTop="5dp"
+            />
+        <!-- FIM DE LINHA-->
+    </LinearLayout>
+
+</LinearLayout>

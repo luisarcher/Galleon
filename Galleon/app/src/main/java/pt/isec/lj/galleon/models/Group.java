@@ -31,10 +31,10 @@ public class Group {
 
     public Group(JSONObject group){
         try {
-            userId = -1;
+            userId = group.getInt("userid");
             groupId = group.getInt("id");
             groupName = group.getString("groupname");
-            groupCat = group.getString("groupnat");
+            groupCat = group.getString("groupcat");
             createdAt = group.getString("createdat");
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,4 +1,4 @@
-package pt.isec.lj.galleon;
+package pt.isec.lj.galleon.models;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import pt.isec.lj.galleon.EventActivity;
 import pt.isec.lj.galleon.models.Event;
 
 /**
@@ -28,7 +29,7 @@ import pt.isec.lj.galleon.models.Event;
 
 public class CalendarManager {
 
-    Context context;
+    private Context context;
     public CalendarManager(Context c){
         context = c;
     }
@@ -101,8 +102,8 @@ public class CalendarManager {
         }
 
         Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-        long eventId = Long.parseLong(uri.getLastPathSegment());
-        Log.d("Novo evento ", String.valueOf(eventId));
+        /*long eventId = Long.parseLong(uri.getLastPathSegment());
+        Log.d("Novo evento ", String.valueOf(eventId));*/
         //Toast.makeText(context, "Saved: " + eventId, Toast.LENGTH_LONG).show();
     }
 }

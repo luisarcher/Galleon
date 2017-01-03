@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="@string/group_search"
-          android:icon="@android:drawable/ic_menu_search"
+          android:icon="@mipmap/ic_search"
           android:showAsAction="always"
-          android:id="@+id/menuFindGroups"/>
+          android:id="@+id/menuSearch"/>
 
     <item android:title="@string/group_create"
           android:icon="@drawable/ico_rudder"

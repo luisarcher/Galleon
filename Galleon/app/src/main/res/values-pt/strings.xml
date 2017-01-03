@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Galleon</string>
     <string name="conn_error">Erro na ligação!</string>
     <string name="empty_fields">Campos vazios encontrados!</string>
     <string name="lets_start">Vamos começar!</string>
-    <string name="loading">A carregar...</string>
-    <string name="logging_in">A autenticar...</string>
+    <string name="loading">A carregar&#8230;</string>
+    <string name="logging_in">A autenticar&#8230;</string>
     <string name="login_success">Bem-vindo!</string>
     <string name="no_internet">Não existe ligação á internet!</string>
     <string name="not_matching_passwords">Passwords não são iguais!</string>
@@ -14,7 +13,7 @@
     <string name="group_created_ok">Novo grupo criado!</string>
     <string name="group_name">Nome do grupo</string>
     <string name="group_ok">Tornar-se um capitão</string>
-    <string name="group_progress_msg">A configurar a página...</string>
+    <string name="group_progress_msg">A configurar a página&#8230;</string>
     <string name="group_search">Procurar grupos</string>
     <string name="grouppage_setup">Configurar a página do grupo</string>
     <string name="register_success">Registado com sucesso!</string>
@@ -50,4 +49,15 @@
     <string name="failed_to_receive">Não foi possível receber o evento!</string>
     <string name="dlg_title_event_receive">Receber convite</string>
     <string name="you_were_invited_to">Foi convidado para</string>
+    <string name="author">Autor</string>
+    <string name="calculating">A calcular GPS&#8230;</string>
+    <string name="event_non_shared">Este evento não pode ser partilhado!</string>
+    <string name="gps_coordinates_not_available">Não existe mapa definido!</string>
+    <string name="menu_accept_gps">Confirmar dados GPS</string>
+    <string name="menu_settings">Definições</string>
+    <string name="pref_about">Sobre</string>
+    <string name="pref_logout">Terminar Sessão</string>
+    <string name="professor">Professor</string>
+    <string name="search_hint">O que procura?</string>
+    <string name="add_gps_data">Localização actual?</string>
 </resources>

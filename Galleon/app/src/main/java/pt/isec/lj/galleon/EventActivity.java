@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Inet4Address;
@@ -23,7 +26,10 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import pt.isec.lj.galleon.API.GetRequest;
+import pt.isec.lj.galleon.API.Request;
+import pt.isec.lj.galleon.models.CalendarManager;
 import pt.isec.lj.galleon.models.Event;
+import pt.isec.lj.galleon.models.Group;
 import pt.isec.lj.galleon.models.Invite;
 
 public class EventActivity extends Activity {
@@ -98,6 +104,10 @@ public class EventActivity extends Activity {
             startActivity(i);
         } else
             Toast.makeText(this, R.string.gps_coordinates_not_available , Toast.LENGTH_SHORT).show();
+    }
+
+    public void onViewGroup(View v){
+        new GetEventGroupTask(this).execute("/groups/" + actualEvent.getGroupid() ,app.getCurrentUser().getApiKey());
     }
 
     private class DataSender {
@@ -193,7 +203,7 @@ public class EventActivity extends Activity {
             }
         });
 
-        public String getLocalIpAddress() {
+        String getLocalIpAddress() {
             try {
                 for (Enumeration<NetworkInterface> en = NetworkInterface
                         .getNetworkInterfaces(); en.hasMoreElements();) {
@@ -259,6 +269,51 @@ public class EventActivity extends Activity {
         protected void onPostExecute(String msg) {
             progress.dismiss();
             Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class GetEventGroupTask extends AsyncTask<String, Void, String> {
+
+        Context context;
+        Request getRequest;
+        ProgressDialog progress;
+
+        GetEventGroupTask (Context c){
+            this.context = c;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            progress= new ProgressDialog(this.context);
+            progress.setMessage(getResources().getString(R.string.loading));
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            getRequest = new GetRequest(strings[0], strings[1]);
+            if (getRequest.isError()){
+                String msg = getRequest.getMessage();
+                return (msg.isEmpty()) ? getResources().getString(R.string.conn_error) : ("" + getRequest.getResponseCode() + " " + msg);
+            } else {
+                try {
+                    saveData(new JSONObject(getRequest.getRaw()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return getRequest.getRaw();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progress.dismiss();
+            if (!getRequest.isError())
+                startActivity(new Intent(context, GroupPageActivity.class));
+        }
+
+        private void saveData(JSONObject json){
+            app.setGroup(new Group(json));
         }
     }
 }
