@@ -60,4 +60,6 @@
     <string name="professor">Professor</string>
     <string name="search_hint">O que procura?</string>
     <string name="add_gps_data">Localização actual?</string>
+    <string name="btn_login">Entrar</string>
+    <string name="btn_register">Registar</string>
 </resources>
