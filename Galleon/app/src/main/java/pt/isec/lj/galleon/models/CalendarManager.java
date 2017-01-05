@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import pt.isec.lj.galleon.EventActivity;
+import pt.isec.lj.galleon.EventEditorActivity;
 import pt.isec.lj.galleon.models.Event;
 
 /**
@@ -35,21 +36,14 @@ public class CalendarManager {
     }
 
     public void addEvent(Event event){
-        /*
-        private int eventId;
-    private String name;
-    private String description;
-    private String location;
-    private String date;
-    private String time;
-    private int groupid;
-    private String createdAt;
-    private Double latitude;
-    private Double longitude;
-    private int isPrivate;
-    private int sharingAllowed;*/
 
-        SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat originalDateFormat;
+
+        if (event.getEventId() != -1) {
+            originalDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        } else {
+            originalDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        }
         SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy,MM,dd,HH,mm,ss");
 
         String eventDate = "" + event.getDate() + " " + event.getTime();
@@ -90,12 +84,11 @@ public class CalendarManager {
         values.put(CalendarContract.Events.EVENT_LOCATION, event.getLocation());
         values.put(CalendarContract.Events.CALENDAR_ID, 3);
         values.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance().getTimeZone().getID());
-        values.put(CalendarContract.Events.ALL_DAY, 1);
+        //values.put(CalendarContract.Events.ALL_DAY, 1);
         //values.put(CalendarContract.Events.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions((EventActivity) context, new String[]{
-                    Manifest.permission.WRITE_CALENDAR}, 20);
+                ActivityCompat.requestPermissions((EventActivity) context, new String[]{Manifest.permission.WRITE_CALENDAR}, 20);
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }

@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import pt.isec.lj.galleon.API.PostRequest;
+import pt.isec.lj.galleon.models.CalendarManager;
+import pt.isec.lj.galleon.models.Event;
 
 public class EventEditorActivity extends Activity {
     private GalleonApp app;
@@ -24,6 +27,8 @@ public class EventEditorActivity extends Activity {
     private EditText txtEventTime;
     private CheckBox chkEventPrivate;
     private CheckBox chkEventNoShare;
+
+    Event tempEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +71,21 @@ public class EventEditorActivity extends Activity {
             app.flag_creating_event_with_gps = false;
         }
 
+        String eventName = txtEventName.getText().toString();
+        String e_description = txtEventDescription.getText().toString();
+        String location = txtEventLocation.getText().toString();
+        String eventDate = txtEventDate.getText().toString();
+        String eventTime = txtEventTime.getText().toString();
+
         // Existe uma verificação do lado do servidor se este grupo pertence de facto ao utilizador devido a pedidos forjados.
         Uri.Builder builder = new Uri.Builder()
-                .appendQueryParameter("eventname", txtEventName.getText().toString())
-                .appendQueryParameter("description", txtEventDescription.getText().toString())
-                .appendQueryParameter("location", txtEventLocation.getText().toString())
+                .appendQueryParameter("eventname", eventName)
+                .appendQueryParameter("description", e_description)
+                .appendQueryParameter("location", location)
                 .appendQueryParameter("groupid", ((Integer)app.getGroup().getId()).toString())
-                .appendQueryParameter("eventdate", txtEventDate.getText().toString())
-                .appendQueryParameter("eventtime", txtEventTime.getText().toString())
-                .appendQueryParameter("isprivate", privateEvent.toString())
+                .appendQueryParameter("eventdate", eventDate)
+                .appendQueryParameter("eventtime", eventTime)
+                .appendQueryParameter("isprivate",privateEvent.toString())
                 .appendQueryParameter("isshared", nonSharedEvent.toString())
                 .appendQueryParameter("latitude", latitude.toString())
                 .appendQueryParameter("longitude", longitude.toString());
@@ -97,6 +108,7 @@ public class EventEditorActivity extends Activity {
     private class CreateNewEventTask extends AsyncTask<String, Void, String> {
         private final Context context;
         private ProgressDialog progress;
+        private PostRequest postReq;
 
         CreateNewEventTask(Context c){
             this.context = c;
@@ -111,7 +123,7 @@ public class EventEditorActivity extends Activity {
 
         @Override
         protected String doInBackground(String... strings) {
-            PostRequest postReq = new PostRequest(strings[0],strings[1], strings[2]);
+            postReq = new PostRequest(strings[0],strings[1], strings[2]);
 
             if (postReq.isError()){
                 String msg = postReq.getMessage();

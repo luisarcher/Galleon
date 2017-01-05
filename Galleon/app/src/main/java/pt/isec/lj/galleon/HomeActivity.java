@@ -6,6 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,8 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.net.URL;
 import java.util.ArrayList;
 
 import pt.isec.lj.galleon.API.GetRequest;
@@ -50,6 +55,9 @@ public class HomeActivity extends Activity {
     // Cliente TCP para receber um evento privado pela socket
     DataReceiver eventReceiver;
 
+    static final String baseProfImgUrl = "http://139.59.164.139/images/user/";
+    ImageView profileImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,7 @@ public class HomeActivity extends Activity {
             startActivity(new Intent(this, LoginActivity.class));
         }
 
+        profileImage = (ImageView) findViewById(R.id.profile_image);
         ((TextView)findViewById(R.id.lblName)).setText(currentUser.getUserName());
         ((TextView)findViewById(R.id.lblEmail)).setText(currentUser.getUserEmail());
 
@@ -77,6 +86,8 @@ public class HomeActivity extends Activity {
                 showEventActivity();
             }
         });
+
+        new DownloadImageTask().execute(baseProfImgUrl + currentUser.getUserId() + ".png");
     }
 
     public void showEventActivity(){
@@ -386,6 +397,32 @@ public class HomeActivity extends Activity {
             }
             ois = null;
             socket = null;
+        }
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        private boolean error = false;
+
+        protected Bitmap doInBackground(String... strings) {
+            String urldisplay = strings[0];
+            Bitmap prof_img = null;
+            try {
+                InputStream in = new URL(urldisplay).openStream();
+                prof_img = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+                error = true;
+            }
+            return prof_img;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            if (error){
+                profileImage.setImageDrawable(getResources().getDrawable(R.drawable.me));
+            } else {
+                profileImage.setImageBitmap(result);
+            }
         }
     }
 }

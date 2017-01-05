@@ -45,7 +45,6 @@ public class GroupPageActivity extends Activity {
         ((TextView)findViewById(R.id.lblGroupName)).setText(currentGroup.getGroupName());
         ((TextView)findViewById(R.id.lblGroupCat)).setText(currentGroup.getGroupCat());
 
-
         eventList = ((ListView) findViewById(R.id.lstGroupEvents));
         eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -155,6 +154,7 @@ public class GroupPageActivity extends Activity {
 
         private void saveData(JSONObject json){
             try {
+                currentGroup.getEvents().clear();
                 JSONArray events = json.getJSONArray("events");
                 for (int i = 0, size =  events.length(); i < size; i++){
                     JSONObject event = events.getJSONObject(i);
